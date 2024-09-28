@@ -3,93 +3,151 @@
 <head>
     <meta charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
-
-
     <title>My Self Portrait</title> 
-    <!--
+        <!--
      Gaming is a part of my life and it is something I am very passionate about
      As a result of this I have over 6200 hours in a game called Counter-Strike
      On this webpage it depicts an emblem for my 5 favorite maps
      My 62 most recent ratings from public matches
      Each to represent both how I did in the game on a Rating 2.0 scale
      And 100 hours of my playtime
-     Centered on the webpage will be a profile picture that I frequently used throughout my games
+     Centered on the webpage will be a my favorite map
     -->  
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            position: relative;
+        }
 
-    <style type="text/css">
+        /* Styling for ratings */
+        .ratings {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            font-size: 18px;
+            opacity: 0.7;
+        }
 
+        .rating {
+            position: absolute;
+            color: #000;
+        }
 
+        .rating.low {
+            color: red;
+        }
+
+        .rating.medium {
+            color: gray;
+        }
+
+        .rating.high {
+            color: green;
+        }
+
+        /* Image layout */
+        .container {
+            display: grid;
+            grid-template-areas:
+                ". top ."
+                "left center right"
+                ". bottom .";
+            grid-gap: 20px;
+        }
+
+        .container img {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #333;
+        }
+
+        .top {
+            grid-area: top;
+        }
+
+        .left {
+            grid-area: left;
+        }
+
+        .center {
+            grid-area: center;
+        }
+
+        .right {
+            grid-area: right;
+        }
+
+        .bottom {
+            grid-area: bottom;
+        }
 
     </style>
-
 </head>
 <body>
-<img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712238/552E501FE5F3FE8737E47B522BEA42917C6C8115/">
-<img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712259/6843AB959CD7429BAD5F24F65564976BCCA01EF1/">
-<img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712216/1317E023968736913EF8D2762C99AEB2B70DF541/">
-<img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712192/65E5476B6E4AD2D7590D0F05A9E9862AB4D91CF5/">
-<img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712156/711F6D5311FD07BD2267A1CA82E0D205B3151D7C/">
-<p>1.08</p>
-<p>0.97</p>
-<p>1.19</p>
-<p>1.32</p>
-<p>1.77</p>
-<p>2.42</p>
-<p>1.47</p>
-<p>1.35</p>
-<p>0.97</p>
-<p>1.17</p>
-<p>1.29
-2.08
-1.93
-2.17
-1.55
-1.27
-2.19
-2
-1.61
-1.35
-1.78
-1.84
-1.11
-1.2
-1.4
-1.56
-1.08
-1.45
-1.39
-1.25
-1.56
-1.44
-.91
-.81
-1.26
-0.47
-0.9
-1.05
-1.05
-1.04
-1.27
-0.71
-0.8
-1.63
-1.46
-0.74
-0.68
-1.63
-1.2
-.82
-1.12
-1.06
-1.10
-1.28
-1.81
-1.05
-1.31
-1.22
-1.09
-1.29
-1.46
-1.57</p>
+
+<div class="container">
+    <img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712259/6843AB959CD7429BAD5F24F65564976BCCA01EF1/" alt="Top Image" class="top">
+    <img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712216/1317E023968736913EF8D2762C99AEB2B70DF541/" alt="Left Image" class="left">
+    <img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712238/552E501FE5F3FE8737E47B522BEA42917C6C8115/" alt="Center Image (Cache Logo)" class="center">
+    <img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712192/65E5476B6E4AD2D7590D0F05A9E9862AB4D91CF5/" alt="Right Image" class="right">
+    <img src="https://steamuserimages-a.akamaihd.net/ugc/1925880768496712156/711F6D5311FD07BD2267A1CA82E0D205B3151D7C/" alt="Bottom Image" class="bottom">
+</div>
+
+<div class="ratings">
+    <p class="rating low" style="top: 5%; left: 10%;">0.97</p>
+    <p class="rating high" style="top: 10%; left: 50%;">1.77</p>
+    <p class="rating medium" style="top: 20%; left: 20%;">1.08</p>
+    <p class="rating low" style="top: 30%; left: 30%;">0.91</p>
+    <p class="rating high" style="top: 40%; left: 60%;">1.32</p>
+    <p class="rating low" style="top: 50%; left: 20%;">0.97</p>
+    <p class="rating high" style="top: 50%; left: 80%;">1.93</p>
+    <p class="rating high" style="top: 60%; left: 70%;">1.55</p>
+    <p class="rating high" style="top: 60%; left: 40%;">2.42</p>
+    <p class="rating medium" style="top: 70%; left: 10%;">1.05</p>
+    <p class="rating high" style="top: 70%; left: 90%;">1.81</p>
+    <p class="rating low" style="top: 80%; left: 30%;">0.74</p>
+    <p class="rating medium" style="top: 90%; left: 50%;">1.10</p>
+    <p class="rating high" style="top: 5%; left: 30%;">1.29</p>
+    <p class="rating high" style="top: 10%; left: 70%;">2.08</p>
+    <p class="rating high" style="top: 15%; left: 20%;">2.17</p>
+    <p class="rating high" style="top: 20%; left: 80%;">1.27</p>
+    <p class="rating high" style="top: 25%; left: 40%;">1.61</p>
+    <p class="rating high" style="top: 30%; left: 70%;">2.19</p>
+    <p class="rating high" style="top: 35%; left: 15%;">2.00</p>
+    <p class="rating high" style="top: 40%; left: 50%;">1.35</p>
+    <p class="rating high" style="top: 45%; left: 75%;">1.78</p>
+    <p class="rating high" style="top: 50%; left: 25%;">1.84</p>
+    <p class="rating high" style="top: 55%; left: 55%;">1.11</p>
+    <p class="rating medium" style="top: 60%; left: 20%;">1.20</p>
+    <p class="rating high" style="top: 65%; left: 50%;">1.40</p>
+    <p class="rating high" style="top: 70%; left: 65%;">1.56</p>
+    <p class="rating medium" style="top: 75%; left: 10%;">1.08</p>
+    <p class="rating high" style="top: 80%; left: 35%;">1.45</p>
+    <p class="rating high" style="top: 85%; left: 50%;">1.39</p>
+    <p class="rating high" style="top: 90%; left: 75%;">1.25</p>
+    <p class="rating high" style="top: 95%; left: 20%;">1.44</p>
+    <p class="rating low" style="top: 40%; left: 90%;">0.91</p>
+    <p class="rating low" style="top: 50%; left: 10%;">0.81</p>
+    <p class="rating medium" style="top: 60%; left: 25%;">1.26</p>
+    <p class="rating low" style="top: 65%; left: 30%;">0.47</p>
+    <p class="rating low" style="top: 70%; left: 40%;">0.90</p>
+    <p class="rating medium" style="top: 75%; left: 45%;">1.05</p>
+    <p class="rating medium" style="top: 80%; left: 55%;">1.04</p>
+    <p class="rating high" style="top: 85%; left: 65%;">1.63</p>
+    <p class="rating high" style="top: 90%; left: 70%;">1.46</p>
+    <p class="rating low" style="top: 95%; left: 80%;">0.68</p>
+</div>
 </body>
-</html> 
+</html>
+
