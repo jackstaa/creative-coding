@@ -5,7 +5,15 @@ function setup() {
   // disable animation
   noLoop();
 }
-
+const char = ["a","b","c","d","e","f"]
+let hex = ""
+for (let x = 0; x < 6, x++){
+  if (Math.floor(Math.random()*15 <= 9){
+  hex = hex + Math.floor(Math.random()*10);
+  } else{
+    hex = hex + random(char);
+  }
+}
 function draw() {
   translate(100,100);
   for (let x = 0; x < 8; x++){
