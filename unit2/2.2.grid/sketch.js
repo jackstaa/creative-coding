@@ -3,7 +3,7 @@ function setup() {
   createCanvas(1200, 1200);
 
   // disable animation
-  noLoop();
+
 }
 function draw() {
   translate(100,100);
