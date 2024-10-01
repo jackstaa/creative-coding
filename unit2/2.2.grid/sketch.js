@@ -1,9 +1,8 @@
 function setup() {
   // create a canvas
   createCanvas(1200, 1200);
-
-  // disable animation
-
+  draw();
+  noLoop();
 }
 function draw() {
   translate(100,100);
