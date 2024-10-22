@@ -32,11 +32,11 @@ function draw() {
 
 // Draw 85 pink squares first
   for (let i = 0; i < 85; i++) {
-    drawSquare(random(50, 600), random(50, 600), pinkColor); //use the function above to draw
+    drawSquare(random(50, 650), random(50, 650), pinkColor); //use the function above to draw
   }
   // Draw 22 black squares
   for (let i = 0; i < 22; i++) {
-    drawSquare(random(50, 600), random(50, 600), blackColor); //draw black second so it goes overtop of the pink
+    drawSquare(random(50, 650), random(50, 650), blackColor); //draw black second so it goes overtop of the pink
   }
 }
 
