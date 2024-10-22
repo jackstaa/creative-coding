@@ -18,7 +18,7 @@ function drawSquare(x, y, color) {
   pop(); // Restore previous drawing state
 }
 
-// based on the following version of Walk Through Raster
+// based on the following version of Walk Through Raster by Frieder Nake in 1966
 // https://dam.org/museum/wp-content/uploads/2020/10/Nake1965WalkThroughRaster-3.jpg
 // I wanted the black squares to stand out overtop of the pink so I ended up doing a set amount
 // of each square to achieve a similar effect of the actual artwork
