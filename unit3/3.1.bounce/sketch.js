@@ -2,7 +2,7 @@ let xspeed;
 let yspeed;
 let x;
 let y;
-let bounce = false;
+let bounce = false; //boolean to tell me if the ball has bounced or not
 
 function setup() {
   createCanvas(400, 400);
@@ -41,12 +41,12 @@ function draw(){
       }
  
   // draw a circle
-  if(bounce == true ){
-  fill(hex);
+  if(bounce == true ){ //if the ball hits the edge "bounces"
+  fill(hex); //change to the new random color
   circle(x, y, 50);
   } else {
-  circle(x, y, 50);
+  circle(x, y, 50); //keep the old random color
   }
-  bounce = false;
+  bounce = false; //reset bounce to false
   
 }
