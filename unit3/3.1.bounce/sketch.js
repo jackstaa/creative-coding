@@ -1,11 +1,13 @@
 let xspeed;
 let yspeed;
-let x = 0;
-let y = 0;
+let x;
+let y;
 let bounce = false;
 
 function setup() {
   createCanvas(400, 400);
+  x = 200;
+  y = 200;
   xspeed = random(-4,4);
   yspeed = random(-4,4);
   circle(x, y, 50);
