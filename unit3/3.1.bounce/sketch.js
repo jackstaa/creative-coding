@@ -26,7 +26,20 @@ function draw(){
 
   y = y + yspeed; // iterate y
 
+  const chars = ["a", "b", "c", "d", "e", "f"]; // Create array of letters
+      let hex = "#"; // Initialize hex string
+
+      // Generate hex color code
+      for (let i = 0; i < 6; i++) { // Use 'i' for inner loop
+        if (floor(random(15)) <= 9) {
+          hex += floor(random(10)); // Append number 0-9
+        } else {
+          hex += random(chars); // Append character a-f
+        }
+      }
+
   // draw a circle
+  fill(hex);
   circle(x, y, 50);
   
 }
