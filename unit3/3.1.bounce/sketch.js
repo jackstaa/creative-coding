@@ -37,11 +37,11 @@ function draw(){
           hex += random(chars); // Append character a-f
         }
       }
-
+ 
   // draw a circle
   if(bounce = true ){
-    fill(hex);
-    circle(x, y, 50);
+  fill(hex);
+  circle(x, y, 50);
   } else {
   circle(x, y, 50);
   }
