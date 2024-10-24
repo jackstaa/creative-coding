@@ -39,7 +39,7 @@ function draw(){
       }
  
   // draw a circle
-  if(bounce = true ){
+  if(bounce == true ){
   fill(hex);
   circle(x, y, 50);
   } else {
