@@ -29,10 +29,10 @@ function drawMountainLayers() {
   for (let i = 0; i < layers; i++) {
     let yOffset = height - i * layerHeight;
     let mountainColor = color(
-      random(100, 150), // Red component
-      random(100, 150), // Green component
-      random(120, 180), // Blue component
-      150               // Alpha
+      random(60, 160), // Red component
+      random(60, 160), // Green component
+      random(70, 180), // Blue component
+      120               // Alpha
     );
 
     fill(mountainColor);
