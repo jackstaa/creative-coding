@@ -24,7 +24,7 @@ function drawSkyGradient() {
 
 function drawMountainLayers() {
   let layers = 4;  // mountain layers
-  let layerHeight = height / layers;
+  let layerHeight = height / 5;
   
   for (let i = 0; i < layers; i++) {
     let yOffset = height - i * layerHeight;
