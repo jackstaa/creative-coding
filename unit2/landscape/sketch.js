@@ -12,7 +12,7 @@ function draw() {
 }
 
 function drawSkyGradient() {
-  let skyColorTop = color(random(200, 255), random(200, 255), random(255));
+  let skyColorTop = color(random(150, 255), random(150, 255), random(255));
   let skyColorBottom = color(random(100, 200), random(150, 200), random(255));
   for (let y = 0; y < height; y++) {
     let inter = map(y, 0, height, 0, 1);
