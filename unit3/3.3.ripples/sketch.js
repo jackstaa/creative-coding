@@ -1,5 +1,3 @@
-
-
 let ripplers = [];
 
 class Rippler{
