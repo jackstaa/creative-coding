@@ -28,7 +28,7 @@ function setup() {
 function draw() {
   background(220);
   image(img2, 0,0, 934, 451 );
-  image(img, x-50,y-30, 90 ,60);
+  image(img, x-50,y-30, 65 ,45);
   // distance formula
   d = sqrt((x - mouseX)**2 + (y - mouseY)**2);
 
