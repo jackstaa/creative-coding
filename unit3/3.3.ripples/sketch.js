@@ -45,7 +45,6 @@ function draw() {
 }
 function mousePressed(){
   let newRipple = new Rippler(mouseX, mouseY);
-  let newRipple2 = new Rippler(mouseX, mouseY); //double the ripples for more effect
   ripplers.push(newRipple);
   //adding the amount of circles in the ripple
   //timeout to add space between ripples
