@@ -78,6 +78,6 @@ function draw() {
     goaly = random(height);
   }
   textSize(20);
-  textColor(255,255,255);
+  fill("white");
   text("score: "+ score, 10, 50);
 }
