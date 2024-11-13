@@ -19,8 +19,8 @@ class Rippler{
       strokeWeight(2);
       noFill();
       circle(this.x, this.y, ripple.diameter);
-      ripple.diameter +=3;
-      ripple.opacity -=2;
+      ripple.diameter +=3; //bigger rings means cooler
+      ripple.opacity -=2; //lower opacity means ripples stay for a longer period
     }
     this.ripple = this.ripple.filter(ripple=> ripple.opacity > 0); //remove ripples at opacity 0
   }
