@@ -1,3 +1,4 @@
+
 let ripplers = [];
 
 class Rippler{
@@ -35,7 +36,7 @@ function setup() {
 function draw() {
   background("#152997");
 
-  // Draw each of the ripples
+  // Draw the ripples
   for(let rippler of ripplers){
     rippler.drawRipples();
 
@@ -47,7 +48,7 @@ function mousePressed(){
   ripplers.push(newRipple);
   //adding the amount of circles in the ripple
   //timeout to add space between ripples
-  for(let i = 0; i< 8; i++){
+  for(let i = 0; i< 10; i++){
     setTimeout(()=> newRipple.addRipple(), i *100);
   }
 
