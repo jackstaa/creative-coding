@@ -19,7 +19,7 @@ class Rippler{
       noFill();
       circle(this.x, this.y, ripple.diameter);
       ripple.diameter +=3;
-      ripple.opacity -=3;
+      ripple.opacity -=2;
     }
     this.ripple = this.ripple.filter(ripple=> ripple.opacity > 0); //remove ripples at opacity 0
   }
