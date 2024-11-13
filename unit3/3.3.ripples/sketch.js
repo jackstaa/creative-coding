@@ -14,18 +14,14 @@ class Rippler{
   drawRipples(){ // draw and update the ripples
     for(let i = 0; i< this.ripple.length; i++){
       let ripple = this.ripple[i];
-
       stroke(`rgba(255, 255, 255, ${ripple.opacity / 255})`);
       strokeWeight(2);
       noFill();
       circle(this.x, this.y, ripple.diameter);
-
       ripple.diameter +=3;
       ripple.opacity -=3;
-
     }
     this.ripple = this.ripple.filter(ripple=> ripple.opacity > 0); //remove ripples at opacity 0
-
   }
 }
 
@@ -35,13 +31,10 @@ function setup() {
 
 function draw() {
   background("#152997");
-
   // Draw the ripples
   for(let rippler of ripplers){
     rippler.drawRipples();
-
   }
-
 }
 function mousePressed(){
   let newRipple = new Rippler(mouseX, mouseY);
