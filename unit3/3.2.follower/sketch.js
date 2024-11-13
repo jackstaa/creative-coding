@@ -62,6 +62,9 @@ function draw() {
 	velocity = velocity - 0.25 //make the ghost slower every time it catches the user
     x = random(width);
     y = random(height);
+  } 
+  if (velocity <= 0) {
+	  velocity = velocity + 0.25 //check for 0 or less velocity and add .25 to keep the game going
   }
 
   // check for a collision with the goal
