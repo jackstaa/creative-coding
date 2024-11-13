@@ -74,6 +74,6 @@ function draw() {
     goalx = random(width);
     goaly = random(height);
   }
-  textSize(30);
-  text("score: "+ score, 50, 200);
+  textSize(20);
+  text("score: "+ score, 10, 50);
 }
