@@ -14,7 +14,11 @@ let grammar = tracery.createGrammar({
 	"STRAW",
 	"WEEDS"
   ],
-  "origin": "A HOUSE OF #material#"
+  "light":[
+  	"USING ELECTRICITY",
+  	"WITH CANDLES"
+  ],
+  "origin": "A HOUSE OF #material# \n #light# "
 });
 
 quatrain = grammar.flatten("#origin#");
