@@ -1,0 +1,22 @@
+{
+  "material": [
+    "SAND",
+    "DUST",
+    "LEAVES",
+    "PAPER",
+    "TIN",
+    "ROOTS",
+    "BRICK",
+    "STONE",
+    "DISCARDED CLOTHING",
+    "GLASS",
+    "STEEL",
+    "PLASTIC",
+    "MUD",
+    "BROKEN DISHES",
+    "WOOD",
+    "STRAW",
+    "WEEDS"
+  ],
+  "origin": "A HOUSE OF #material#"
+}
