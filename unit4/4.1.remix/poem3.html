@@ -8,6 +8,8 @@
 	copyright (c) 2016, 2024 Nick Montfort <nickm@nickm.com>
 	based on a 1961 program by Victor H. Yngve
 
+	Edited in 2024 by Jack Collier, same idea but way way worse
+	
 	Copying and distribution of this file, with or without modification,
 	are permitted in any medium without royalty provided the copyright
 	notice and this notice are preserved. This file is offered as-is,
@@ -63,16 +65,16 @@
 		'<singular> ::= <consonant-noun> | <an-the-adjs>/" engine"',
 		'<consonant-noun> ::= <a-the-adjs>/<countable> | ' + 
 			'<-the-adjs>/<uncountable>',
-		'<countable> ::= " train" | " bell" | " whistle" | " sand-dome" | ' + 
-			'" headlight" | " smokestack" | " wheel" | " firebox" | " boiler"',
-		'<uncountable> ::= " water" | " steam"',
+		'<countable> ::= " whip" | " ding" | " yell" | " ball" | ' + 
+			'" lighter" | " fire alarm" | " wheelie" | " goop" | " stank"',
+		'<uncountable> ::= " wet" | " steamy"',
 		'<plural> ::= <four-the-adjs>/<plural-noun>',
 		'<adjective> ::= " little" | " black" | " shiny" | " oiled" | ' + 
 			'" polished" | " heated" | " big"',
 		'<some-adjectives> ::= <adjective> | ' + 
 			'<adjective>/<maybe-adjectives>/" and"/<adjective>',
-		'<a-an-adjective> ::= " a little" | " a black" | " a shiny" | ' + 
-			'" an oiled" | " a polished" | " a heated" | " a big"',
+		'<a-an-adjective> ::= " a big" | " a thing" | " a bald" | ' + 
+			'" an ugly" | " a shimmering" | " a cold" | " a small"',
 		'<singular-adjs> ::= <a-an-adjective>/<maybe-adjectives> | " the"/' + 
 			'<adjective>/<maybe-adjectives> | <possessive>/<adjective>/' + 
 			'<maybe-adjectives>',
@@ -86,9 +88,9 @@
 		'<four-the-adjs> ::= " the" | <possessive> | " four" | ' + 
 			'" the"/<some-adjectives> | <possessive>/<some-adjectives> | ' + 
 			'" four"/<some-adjectives>',
-		'<plural-noun> ::= " trains" | " engines" | " bells" | " whistles" | ' +
-			'" sand-domes" | " headlights" | " smokestacks" | ' + 
-			'" driving wheels" | " fireboxes" | " boilers"',
+		'<plural-noun> ::= " planes" | " kitchens" | " dings" | " stanks" | ' +
+			'" sand-castles" | " fire hydrants" | " lighterss" | ' + 
+			'" scooter wheelies" | " skateboards" | " stanks"',
 		'<preposition> ::= " under" | " in"',
 		'<object> ::= <proper-noun> | <singular> | <plural> | <singular>/' + 
 			'<preposition>/<singular>',
@@ -184,9 +186,7 @@
 			based on a work by <a 
 href="https://direct.mit.edu/coli/article/38/3/461/2161/Victor-H-Yngve">Victor 
 			H. Yngve</a><br>
-			code by <a href="https://nickm.com">Nick Montfort,</a> 
-			also in <a href="random_sentences.py">Python 2/3</a><br>
-			from <a href="https://nickm.com/memslam/">Memory Slam 2.0:</a> 
+			code by <a href="https://jackstaa.github.io/creative-coding/unit4/4.1.remix/">Jack Collier,</a> 
 			Batch-Era Text Generators
 		</h1>
 	</header>
