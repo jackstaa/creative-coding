@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -9,7 +9,7 @@ Nick Montfort
  8 January 2009, Taroko Gorge National Park, Taiwan and Eva Air Flight 28
 
 Copyright (c) 2009 Nick Montfort <nickm@nickm.com>
-Edited by Jack Collier 2024 to create a poem about fishin
+Edited by Jack Collier 2024 to create a poem about fishing
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -25,10 +25,9 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 -->
 <style type="text/css">
-/* <![CDATA[ */
 body {
- background: #062;
- color: #dad;
+ background: #001266;
+ color: #ffffff;
  margin: 0 24pt 0 24pt;
  font-family: Optima, sans-serif;
  font-size: 13pt;
@@ -37,12 +36,11 @@ div {
  height: 16pt;
 }
 a {
- color: #117;
+ color: #0b3;
  text-decoration: none;
 }
-/* ]]> */
 </style>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 var t = 0;
 var n = 0;
 var paths = 0;
@@ -50,7 +48,6 @@ var above = 'dock,surface,reeds,shallows,sky,bank,river edge,lure'.split(',');
 var below = 'water,stream,current,deeper pools,bed,weeds,shoal,river'.split(',');
 var trans = 'cast,drift,troll,glide,snag,search,move,scan'.split(',');
 var imper = 'reel,hook,cast out,pull in,set the line,release,net'.split(',');
-imper = imper.split(',');
 var intrans = 'wait,float,rest,observe,ponder,drift,daydream'.split(',');
 var s = 's,'.split(',');
 var texture = 'smooth,rough,shimmering,glassy,flowing,rippling'.split(',');
@@ -74,58 +71,64 @@ function path() {
   words += ' the ' + choose(below) + choose(s) + '.';
   return words;
 }
+
 function cave() {
-var adjs = ('glimmering,' + choose(texture) + ',fluid,gentle,vivid,smooth,cool,serene,quiet,hidden').split(',');
- var target=1+rand_range(3);
- while (adjs.length>target) {
-  adjs.splice(rand_range(adjs.length),1);
+  var adjs = ('glimmering,' + choose(texture) + ',fluid,gentle,vivid,smooth,cool,serene,quiet,hidden').split(',');
+  var target = 1 + rand_range(3);
+  while (adjs.length > target) {
+    adjs.splice(rand_range(adjs.length), 1);
   }
- var words='\u00a0\u00a0'+choose(imper)+' the '+adjs.join(' ')+' \u2014';
- return words;
+  var words = '\u00a0\u00a0' + choose(imper) + ' the ' + adjs.join(' ') + ' \u2014';
+  return words;
 }
+
+function site() {
+  return "Fishing site description goes here.";
+}
+
 function do_line() {
- var main=document.getElementById('main');
- if (t<=25) {
-  t+=1;
- } else {
-  main.removeChild(document.getElementById('main').firstChild);
- }
- if (n===0) {
-  text=' ';
- } else if (n==1) {
-  paths=2+rand_range(2);
-  text=path();
- } else if (n<paths) {
-  text=site();
- } else if (n==paths) {
-  text=path();
- } else if (n==paths+1) {
-  text=' ';
- } else if (n==paths+2) {
-  text=cave();
- } else {
-  text=' ';
-  n=0;
- }
- n+=1;
- text=text.substring(0,1).toUpperCase()+text.substring(1,text.length);
- last=document.createElement('div');
- last.appendChild(document.createTextNode(text));
- main.appendChild(last);
+  var main = document.getElementById('main');
+  if (t <= 25) {
+    t += 1;
+  } else {
+    main.removeChild(main.firstChild);
+  }
+  var text;
+  if (n === 0) {
+    text = ' ';
+  } else if (n === 1) {
+    paths = 2 + rand_range(2);
+    text = path();
+  } else if (n < paths) {
+    text = site();
+  } else if (n === paths) {
+    text = path();
+  } else if (n === paths + 1) {
+    text = ' ';
+  } else if (n === paths + 2) {
+    text = cave();
+  } else {
+    text = ' ';
+    n = 0;
+  }
+  n += 1;
+  text = text.substring(0, 1).toUpperCase() + text.substring(1, text.length);
+  var last = document.createElement('div');
+  last.appendChild(document.createTextNode(text));
+  main.appendChild(last);
 }
+
 function poem() {
- setInterval(do_line, 1200);
+  setInterval(do_line, 1200);
 }
 </script>
-  <title>Fish Gorge</title>
+<title>Fish Gorge</title>
 </head>
 <body onload="poem()">
 <div style="float:right; margin-top:12px; color:#0b3; height:60pt">
-<div>Fish Gorge</div>
-<div><a href="https://jackstaa.github.io/creative-coding/unit4/4.1.remix/">Jack Collier</a></div>
+  <div>Fish Gorge</div>
+  <div><a href="https://jackstaa.github.io/creative-coding/unit4/4.1.remix/">Jack Collier</a></div>
 </div>
 <div id="main"></div>
 </body>
 </html>
-
-
