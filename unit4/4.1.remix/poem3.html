@@ -60,7 +60,7 @@
 		'<long-sentence> ::= " when"/<short-sentence>/","/<short-sentence>',
 		'<subject> ::= <proper-noun> | <subject-pronoun> | <singular> | ' + 
 			'<singular>/<preposition>/<singular>',
-		'<proper-noun> ::= " Engineer Small" | " Small"',
+		'<proper-noun> ::= " Engineer Ted" | " Ted"',
 		'<subject-pronoun> ::= " he" | " it"',
 		'<singular> ::= <consonant-noun> | <an-the-adjs>/" engine"',
 		'<consonant-noun> ::= <a-the-adjs>/<countable> | ' + 
@@ -69,8 +69,8 @@
 			'" lighter" | " fire alarm" | " wheelie" | " goop" | " stank"',
 		'<uncountable> ::= " wet" | " steamy"',
 		'<plural> ::= <four-the-adjs>/<plural-noun>',
-		'<adjective> ::= " little" | " black" | " shiny" | " oiled" | ' + 
-			'" polished" | " heated" | " big"',
+		'<adjective> ::= " little" | " stinky" | " shiny" | " oiled" | ' + 
+			'" sandy" | " heated" | " large"',
 		'<some-adjectives> ::= <adjective> | ' + 
 			'<adjective>/<maybe-adjectives>/" and"/<adjective>',
 		'<a-an-adjective> ::= " a big" | " a thing" | " a bald" | ' + 
@@ -85,13 +85,13 @@
 		'<verb-1> ::= " has" | " is" | " is proud of" | " makes"',
 		'<verb-2> ::= " is" | " keeps"/<object> | " keeps it"',
 		'<possessive> ::= " his" | " its"',
-		'<four-the-adjs> ::= " the" | <possessive> | " four" | ' + 
+		'<four-the-adjs> ::= " the" | <possessive> | " seventy" | ' + 
 			'" the"/<some-adjectives> | <possessive>/<some-adjectives> | ' + 
 			'" four"/<some-adjectives>',
 		'<plural-noun> ::= " planes" | " kitchens" | " dings" | " stanks" | ' +
-			'" sand-castles" | " fire hydrants" | " lighterss" | ' + 
-			'" scooter wheelies" | " skateboards" | " stanks"',
-		'<preposition> ::= " under" | " in"',
+			'" sand-castles" | " fire hydrants" | " lighters" | ' + 
+			'" scooters" | " skateboards" | " stanks"',
+		'<preposition> ::= " behind" | " in front of"',
 		'<object> ::= <proper-noun> | <singular> | <plural> | <singular>/' + 
 			'<preposition>/<singular>',
 		'<maybe-objects> ::= ","/<object>/<maybe-objects> | ""',
