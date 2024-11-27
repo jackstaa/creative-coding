@@ -83,7 +83,14 @@ function cave() {
 }
 
 function site() {
-  return "On the west bank of the channel";
+ var words='';
+ if (rand_range(2)==1) {
+  words+=choose(above);
+ } else {
+  words+=choose(below);
+ }
+ words+='s '+choose(intrans)+'.';
+ return words;
 }
 
 function do_line() {
