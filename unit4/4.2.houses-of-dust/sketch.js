@@ -115,7 +115,7 @@ let grammar = tracery.createGrammar(
 	  "FICTIONAL CHARACTERS",
 	  "SOME DUDE",
   ], 
-  "origin": "A HOUSE OF #material#\nBY #place#\nUSING #light_source\nINHABITED BY #inhabitants#"
+  "origin": "A HOUSE OF #material#\nBY #place#\nUSING #light_source#\nINHABITED BY #inhabitants#"
 }
 );
 
