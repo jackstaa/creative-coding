@@ -14,8 +14,39 @@ let grammar = tracery.createGrammar(
 	"WOOD",
 	"STRAW",
 	"WEEDS"
-  ],
-  "origin": "A HOUSE OF #material#"
+  ], "place": [
+	  "A RIVER",
+	  "A DOCK",
+	  "A CLOCKTOWER",
+	  "A FACTORY",
+	  "A MALL",
+	  "A NEIGHBOORHOOD",
+	  "AN ABANDONED PAPER PLANT",
+	  "A CONSTRUCTION SITE",
+	  "A JUNGLE",
+	  "A FOREST",
+  ], "light_source":[
+	  "TORCHES",
+	  "CANDLES",
+	  "ELECTRICITY",
+	  "NATURAL LIGHT",
+	  "FLASHLIGHTS",
+	  "LEDs",
+	  "FIRES",
+	  "LIGHTNING BUGS",
+  ], "inhabitants":[
+	  "OLD PEOPLE",
+	  "YOUNG PEOPLE",
+	  "A DIVERSE GROUP OF INDIVIDUALS",
+	  "GHOSTS",
+	  "BUGS",
+	  "ANIMALS AND PEOPLE",
+	  "WITCHES",
+	  "VAMPIRES",
+	  "DINOSAURS",
+	  "LIZARDS",
+  ], 
+  "origin": "A HOUSE OF #material#/\nBY #place#\nUSING #light_source\nINHABITED BY #inhabitants#"
 }
 );
 
