@@ -119,8 +119,6 @@ let grammar = tracery.createGrammar(
 }
 );
 
-poem = grammar.flatten("#origin#")
-
 function setup() {
   createCanvas(800, 800);
   frameRate(1);
@@ -128,6 +126,14 @@ function setup() {
 
 function draw() {
   background(220);
+  textSize(25);
 
-  text(poem, 50, 50);
+  //loop to create the stanzas
+  for(let i = 1; i < 20; i+=3){
+    //Generate the poem using the defined grammar
+    poem = grammar.flatten("#origin#");
+    //Put the poem on the screen
+    text(poem, 50, i*50);
+  }
+
 }
