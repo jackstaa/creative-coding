@@ -13,7 +13,10 @@ let grammar = tracery.createGrammar(
 	"BROKEN DISHES",
 	"WOOD",
 	"STRAW",
-	"WEEDS"
+	"WEEDS",
+	"CARDBOARD",
+	"CLAY",
+	"WORDS",
   ], "place": [
 	  "A RIVER",
 	  "A DOCK",
@@ -25,6 +28,7 @@ let grammar = tracery.createGrammar(
 	  "A CONSTRUCTION SITE",
 	  "A JUNGLE",
 	  "A FOREST",
+	  "A WINDY CLIFF",
   ], "light_source":[
 	  "TORCHES",
 	  "CANDLES",
