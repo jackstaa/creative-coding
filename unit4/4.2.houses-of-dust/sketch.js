@@ -50,7 +50,7 @@ let grammar = tracery.createGrammar(
 	  "DINOSAURS",
 	  "LIZARDS",
   ], 
-  "origin": "A HOUSE OF #material#/\nBY #place#\nUSING #light_source\nINHABITED BY #inhabitants#"
+  "origin": "A HOUSE OF #material#\nBY #place#\nUSING #light_source\nINHABITED BY #inhabitants#/"
 }
 );
 
