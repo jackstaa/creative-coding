@@ -129,7 +129,7 @@ function draw() {
   textSize(25);
 
   //loop to create the stanzas
-  for(let i = 1; i < 10; i+=1){
+  for(let i = 1; i < 30; i+=3){
     //Generate the poem using the defined grammar
     poem = grammar.flatten("#origin#");
     //Put the poem on the screen
