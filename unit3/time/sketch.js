@@ -3,6 +3,13 @@ let bugX = 0;
 let sunX, sunY;
 let cloudX, cloud2X;
 
+// This project is meant to be a simple daytime scene
+// I wanted the scene to reflect how the real world does so I made the bug very active
+// The sun and the clouds move just a little every minute, allowing for the feeling you get
+// when you zone out for a couple hours and the day has passed
+// lastly the tree grows rapidly on the hour, which is unrealistic, but had to be done.
+// the tree's height also resets daily at midnight
+
 function setup() {
   createCanvas(800, 800);
 
@@ -43,7 +50,8 @@ function drawSun() {
   let sunX = map(hour(), 0, 23, 0, width); // Map hour to x-position
   ellipse(sunX, sunY, 60);
 }
-
+//the reason the method draws two clouds is because it was easier to keep them seperated from each other
+//this way i wouldnt have to have parameters to the drawCloud functions
 function drawClouds() {
   fill(255); // White
   // Cloud 1 moves across the screen every minute
