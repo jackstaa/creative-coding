@@ -72,7 +72,7 @@ let grammar = tracery.createGrammar({
         "macabre",
         "jealous"],
    //List from https://perchance.org/fish-species
-  animal: ["trout",
+  animal: ["Rainbow trout",
            "Oscar",
            "Bala shark",
            "Oregon chub",
