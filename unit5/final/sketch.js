@@ -76,6 +76,7 @@ function draw() {
   
   // Check win condition
   checkWinCondition();
+  frameRate(24);
 }
 
 function handleMovement() {
