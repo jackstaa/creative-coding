@@ -5,14 +5,15 @@ let gameState;
 function setup() {
   let canvas = createCanvas(400, 600);
   canvas.parent('sketch-holder');
-  // Explicitly enable focus and set tabindex
-  canvas.elt.tabIndex = 1;
   
-  // Focus the canvas when clicked
+  // Enable focus and set tabindex
+  canvas.elt.tabIndex = 1;
+
+  // Bind mousePressed to ensure canvas gets focus when clicked
   canvas.mousePressed(() => {
     canvas.elt.focus();
   });
-  // Auto-focus the canvas on page load
+  // Automatically focus the canvas when the page loads
   setTimeout(() => {
     canvas.elt.focus();
   }, 100);
