@@ -37,6 +37,17 @@ function initializeGame() {
     };
 
     platforms = [
+        // Large platform on the left side of the screen
+        { x: 0, y: height - 100, width: 150, height: 10 },
+        // Large platform on the right side of the screen
+        { x: width - 150, y: height - 100, width: 150, height: 10 },
+        // Platform above, in the middle
+        { x: width / 2 - 50, y: height - 200, width: 100, height: 10 },
+        // Platform in the middle right
+        { x: width - 100, y: height - 300, width: 80, height: 10 },
+        // Platform in the middle left
+        { x: 20, y: height - 300, width: 80, height: 10 },
+        // Goal platform
         { x: width / 2, y: 50, width: 20, height: 10, isGoal: true }
     ];
 }
