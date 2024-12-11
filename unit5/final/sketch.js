@@ -1,3 +1,4 @@
+
 // Assume `player` is an object with properties: x, y, velocityX, velocityY, and onGround.
 let player;
 let platforms;
@@ -6,7 +7,7 @@ let resetButton;
 
 function setup() {
     let canvas = createCanvas(400, 600);
-    canvas.parent('sketch-holder');
+    //canvas.parent('sketch-holder');
 
     // Initialize game state
     initializeGame();
@@ -38,17 +39,18 @@ function initializeGame() {
 
     platforms = [
         // Large platform on the left side of the screen
-        { x: 0, y: height - 100, width: 150, height: 10 },
+        { x: 0, y: height - 100, width: 110, height: 10 },
+        { x: 0, y: height, width: 400, height: 10 },
         // Large platform on the right side of the screen
-        { x: width - 150, y: height - 100, width: 150, height: 10 },
+        { x: width - 150, y: height - 100, width: 110, height: 10 },
         // Platform above, in the middle
-        { x: width / 2 - 50, y: height - 200, width: 100, height: 10 },
+        { x: width / 2 - 50, y: height - 200, width: 110, height: 10 },
         // Platform in the middle right
         { x: width - 100, y: height - 300, width: 80, height: 10 },
         // Platform in the middle left
         { x: 20, y: height - 300, width: 80, height: 10 },
         // Goal platform
-        { x: width / 2, y: 50, width: 20, height: 10, isGoal: true }
+        { x: width / 2, y: 100, width: 25, height: 10, isGoal: true }
     ];
 }
 
@@ -93,7 +95,7 @@ function applyGravity() {
 
 function handleJump() {
     if (keyIsDown(32) && player.grounded) { // Space key
-        player.velocityY = -10; // Base jump velocity
+        player.velocityY = -15; // Base jump velocity
 
         if (keyIsDown(65)) { // A key
             player.velocityX = -5;
@@ -120,13 +122,13 @@ function checkWallCollisions() {
     // Left wall collision
     if (player.x < 0) {
         player.x = 0;
-        player.velocityX = 0;
+        player.velocityX = -player.velocityX;
     }
 
     // Right wall collision
     if (player.x + player.width > width) {
         player.x = width - player.width;
-        player.velocityX = 0;
+        player.velocityX = -player.velocityX;
     }
 }
 
@@ -145,6 +147,7 @@ function checkPlatformCollisions() {
             player.y = platform.y - player.height;
             player.velocityY = 0;
             player.grounded = true;
+            player.velocityX = 0;
         }
 
         // Prevent falling through platform from above
@@ -158,6 +161,7 @@ function checkPlatformCollisions() {
             player.y = platform.y + platform.height;
             player.velocityY = 0;
         }
+      
     });
 
     // Bottom of screen boundary
@@ -169,15 +173,15 @@ function checkPlatformCollisions() {
 function checkWinCondition() {
     const goalPlatform = platforms.find(p => p.isGoal);
     if (
-        player.x < goalPlatform.x + goalPlatform.width &&
+        player.y + player.height <= goalPlatform.y &&
         player.x + player.width > goalPlatform.x &&
-        player.y < goalPlatform.y + goalPlatform.height &&
-        player.y + player.height > goalPlatform.y
+        player.x < goalPlatform.x + goalPlatform.width &&
+        player.grounded === true
     ) {
         textSize(32);
         fill(0);
         textAlign(CENTER, CENTER);
-        text("YOU WIN!", width/2, height/2);
+        text("YOU WIN!", width / 2, height / 2);
         noLoop(); // Stop the game
     }
 }
