@@ -5,7 +5,6 @@ let gameState;
 function setup() {
   let canvas = createCanvas(400, 600);
   canvas.parent('sketch-holder');
-  
   // Explicitly enable focus and set tabindex
   canvas.elt.tabIndex = 1;
   
