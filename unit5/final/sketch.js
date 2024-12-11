@@ -4,12 +4,19 @@ let gameState;
 
 function setup() {
   let canvas = createCanvas(400, 600);
-  canvas.parent('sketch-holder'); // Ensure canvas is in a container
+  canvas.parent('sketch-holder');
   
-  // Explicitly focus on the canvas to capture keyboard events
+  // Explicitly enable focus and set tabindex
   canvas.elt.tabIndex = 1;
-  canvas.elt.focus();
   
+  // Focus the canvas when clicked
+  canvas.mousePressed(() => {
+    canvas.elt.focus();
+  });
+  // Auto-focus the canvas on page load
+  setTimeout(() => {
+    canvas.elt.focus();
+  }, 100);
   // Initialize game state
   gameState = {
     isJumping: false,
