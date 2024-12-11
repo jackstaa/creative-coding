@@ -35,11 +35,11 @@ function initializeGame() {
   };
 
   platforms = [
-    { x: width / 2 - 100, y: height - 50, width: 200, height: 10 },
-    { x: width / 2 - 80, y: height - 150, width: 160, height: 10 },
-    { x: width / 2 - 60, y: height - 250, width: 120, height: 10 },
-    { x: width / 2 - 40, y: height - 350, width: 80, height: 10 },
-    { x: width / 2 - 20, y: height - 450, width: 40, height: 10 },
+ //   { x: width / 2 - 100, y: height - 50, width: 200, height: 10 },
+ //   { x: width / 2 - 80, y: height - 150, width: 160, height: 10 },
+//    { x: width / 2 - 60, y: height - 250, width: 120, height: 10 },
+//   { x: width / 2 - 40, y: height - 350, width: 80, height: 10 },
+//    { x: width / 2 - 20, y: height - 450, width: 40, height: 10 },
     { x: width / 2, y: 50, width: 20, height: 10, isGoal: true }
   ];
 }
