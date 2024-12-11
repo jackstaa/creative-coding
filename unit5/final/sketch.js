@@ -76,35 +76,27 @@ function applyGravity() {
 }
 
 function keyPressed() {
-  // Charge jump
+  // Charge jump if grounded
   if (key === ' ' && player.grounded) {
     gameState.isJumping = true;
   }
 }
 
 function keyReleased() {
-  // Execute jump
+  // Execute jump on releasing the spacebar
   if (key === ' ' && gameState.isJumping && player.grounded) {
     let jumpMultiplier = gameState.jumpPower / 2;
-    
+
     if (keyIsDown(65)) { // A key for left
       player.velocityX = -jumpMultiplier;
-      player.velocityY = -jumpMultiplier;
     } else if (keyIsDown(68)) { // D key for right
       player.velocityX = jumpMultiplier;
-      player.velocityY = -jumpMultiplier;
-    } else { // Straight up jump
-      player.velocityY = -gameState.jumpPower;
     }
-    
-    gameState.isJumping = false;
+
+    player.velocityY = -gameState.jumpPower;
     player.grounded = false;
-    gameState.jumpPower = 0;
-  }
-  
-  // Charge jump power while space is held
-  if (key === ' ' && gameState.isJumping) {
-    gameState.jumpPower = min(gameState.jumpPower + 1, gameState.maxJumpPower);
+    gameState.isJumping = false;
+    gameState.jumpPower = 0; // Reset jump power
   }
 }
 
