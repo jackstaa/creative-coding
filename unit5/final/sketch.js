@@ -9,7 +9,9 @@ function setup() {
   gameState = {
     isJumping: false,
     jumpPower: 0,
-    maxJumpPower: 20
+    maxJumpPower: 20,
+    leftPressed: false,
+    rightPressed: false
   };
   
   // Create player with horizontal movement
@@ -68,10 +70,10 @@ function draw() {
 function handleMovement() {
   // Horizontal movement
   player.velocityX = 0;
-  if (keyIsDown(65)) {
+  if (gameState.leftPressed) {
     player.velocityX = -player.moveSpeed;
   }
-  if (keyIsDown(68)) {
+  if (gameState.rightPressed) {
     player.velocityX = player.moveSpeed;
   }
   
@@ -82,6 +84,39 @@ function handleMovement() {
 function applyGravity() {
   player.velocityY += 0.5;
   player.y += player.velocityY;
+}
+
+function keyPressed() {
+  // Horizontal movement
+  if (key === 'a' || key === 'A') {
+    gameState.leftPressed = true;
+  }
+  if (key === 'd' || key === 'D') {
+    gameState.rightPressed = true;
+  }
+  
+  // Jumping
+  if (key === ' ' && player.grounded) {
+    gameState.isJumping = true;
+    gameState.jumpPower = 0;
+  }
+}
+
+function keyReleased() {
+  // Horizontal movement
+  if (key === 'a' || key === 'A') {
+    gameState.leftPressed = false;
+  }
+  if (key === 'd' || key === 'D') {
+    gameState.rightPressed = false;
+  }
+  
+  // Execute jump when spacebar is released
+  if (key === ' ' && player.grounded) {
+    player.velocityY = -gameState.jumpPower;
+    gameState.isJumping = false;
+    gameState.jumpPower = 0;
+  }
 }
 
 function checkPlatformCollisions() {
@@ -145,30 +180,6 @@ function checkPlatformCollisions() {
   }
 }
 
-function keyPressed() {
-  // Start charging jump when spacebar is pressed
-  if (key === ' ' && player.grounded) {
-    gameState.isJumping = true;
-    gameState.jumpPower = 0;
-  }
-}
-
-function keyReleased() {
-  // Execute jump when spacebar is released
-  if (key === ' ' && player.grounded) {
-    player.velocityY = -gameState.jumpPower;
-    gameState.isJumping = false;
-    gameState.jumpPower = 0;
-  }
-}
-
-function keyTyping() {
-  // Increment jump power while spacebar is held
-  if (gameState.isJumping && gameState.jumpPower < gameState.maxJumpPower) {
-    gameState.jumpPower += 0.5;
-  }
-}
-
 function checkWinCondition() {
   const goalPlatform = platforms.find(p => p.isGoal);
   if (
@@ -190,4 +201,11 @@ function resetGame() {
   player.y = height - 20;
   player.velocityY = 0;
   player.velocityX = 0;
+}
+
+function keyTyping() {
+  // Increment jump power while spacebar is held
+  if (gameState.isJumping && gameState.jumpPower < gameState.maxJumpPower) {
+    gameState.jumpPower += 0.5;
+  }
 }
