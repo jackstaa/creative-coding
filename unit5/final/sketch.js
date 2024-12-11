@@ -3,7 +3,12 @@ let platforms;
 let gameState;
 
 function setup() {
-  createCanvas(400, 600);
+  let canvas = createCanvas(400, 600);
+  canvas.parent('sketch-holder'); // Ensure canvas is in a container
+  
+  // Explicitly focus on the canvas to capture keyboard events
+  canvas.elt.tabIndex = 1;
+  canvas.elt.focus();
   
   // Initialize game state
   gameState = {
@@ -87,11 +92,16 @@ function applyGravity() {
 }
 
 function keyPressed() {
+  // Prevent default browser behavior for arrow keys and space
+  if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW || keyCode === 32) {
+    return false;
+  }
+
   // Horizontal movement
-  if (key === 'a' || key === 'A') {
+  if (key.toLowerCase() === 'a') {
     gameState.leftPressed = true;
   }
-  if (key === 'd' || key === 'D') {
+  if (key.toLowerCase() === 'd') {
     gameState.rightPressed = true;
   }
   
@@ -103,11 +113,16 @@ function keyPressed() {
 }
 
 function keyReleased() {
+  // Prevent default browser behavior for arrow keys and space
+  if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW || keyCode === 32) {
+    return false;
+  }
+
   // Horizontal movement
-  if (key === 'a' || key === 'A') {
+  if (key.toLowerCase() === 'a') {
     gameState.leftPressed = false;
   }
-  if (key === 'd' || key === 'D') {
+  if (key.toLowerCase() === 'd') {
     gameState.rightPressed = false;
   }
   
@@ -203,9 +218,7 @@ function resetGame() {
   player.velocityX = 0;
 }
 
-function keyTyping() {
-  // Increment jump power while spacebar is held
-  if (gameState.isJumping && gameState.jumpPower < gameState.maxJumpPower) {
-    gameState.jumpPower += 0.5;
-  }
+function mousePressed() {
+  // Ensure canvas has focus when clicked
+  this.elt.focus();
 }
