@@ -1,5 +1,5 @@
 let grammar = tracery.createGrammar({
-  bookTitle : "#animal.s.capitalize#, #animal.s.capitalize#, and #adj.capitalize# #animal.s.capitalize#.",
+  bookTitle : "Various Fishes Doing Some Sort of Something",
   chapterTitle : ["#number.capitalize# #adj.capitalize# #animal.s.capitalize#"],
   sentence : "The #adj# #animal# #verb#.",
   number : ["two",
