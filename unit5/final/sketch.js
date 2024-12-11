@@ -79,8 +79,10 @@ function draw() {
 }
 
 function applyGravity() {
-  player.velocityY += 0.5;
-  player.y += player.velocityY;
+  if (!player.grounded && !gameState.isJumping) {
+    player.velocityY += 0.5;
+    player.y += player.velocityY;
+  }
 }
 
 function checkWallCollisions() {
