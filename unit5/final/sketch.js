@@ -2,21 +2,20 @@ let player;
 let platforms;
 let gameState;
 let resetButton;
-
 function setup() {
   let canvas = createCanvas(400, 600);
   canvas.parent('sketch-holder');
+  
+  // Initialize game state
+  initializeGame();
   
   // Create reset button
   resetButton = createButton('Reset Game');
   resetButton.position(10, height + 10);
   resetButton.mousePressed(resetGame);
-  
-  initializeGame();
 }
 
 function initializeGame() {
-  // Initialize game state
   gameState = {
     isJumping: false,
     jumpPower: 0,
@@ -24,8 +23,7 @@ function initializeGame() {
     jumpDirection: null,
     gameOver: false
   };
-  
-  // Create player with precise positioning
+
   player = {
     x: width / 2,
     y: height - 50,
@@ -33,13 +31,11 @@ function initializeGame() {
     height: 20,
     velocityY: 0,
     velocityX: 0,
-    grounded: true,
+    grounded: true
   };
-  
-  // Create platforms (increasing difficulty)
+
   platforms = [
-    { x: width, y: height - 50, width: 80, height: 10 },
-    { x: 0, y: height - 50, width: 80, height: 10 },
+    { x: width / 2 - 100, y: height - 50, width: 200, height: 10 },
     { x: width / 2 - 80, y: height - 150, width: 160, height: 10 },
     { x: width / 2 - 60, y: height - 250, width: 120, height: 10 },
     { x: width / 2 - 40, y: height - 350, width: 80, height: 10 },
@@ -51,31 +47,22 @@ function initializeGame() {
 function draw() {
   background(220);
   
-  // Debug key presses
   displayKeyPresses();
   
-  // Draw platforms
   platforms.forEach(platform => {
     fill(platform.isGoal ? color(0, 255, 0) : color(100, 100, 100));
     rect(platform.x, platform.y, platform.width, platform.height);
   });
   
-  // Physics and movement
   applyGravity();
   checkPlatformCollisions();
   checkWallCollisions();
   
-  // Draw player
   fill(255, 0, 0);
   rect(player.x, player.y, player.width, player.height);
   
-  // Jump power indicator
-  if (gameState.isJumping) {
-    fill(0, 0, 255, 100);
-    rect(10, height - 30, gameState.jumpPower * 5, 20);
-  }
   drawJumpPowerGauge();
-  // Check win condition
+  
   checkWinCondition();
 }
 
@@ -92,7 +79,6 @@ function keyPressed() {
   // Charge jump
   if (key === ' ' && player.grounded) {
     gameState.isJumping = true;
-    gameState.jumpPower = 0;
   }
 }
 
@@ -122,18 +108,14 @@ function keyReleased() {
   }
 }
 
-
 function drawJumpPowerGauge() {
-  // Draw the jump power gauge
   fill(0, 0, 255, 100);
   rect(10, height - 30, gameState.jumpPower * 5, 20);
   
-  // Draw the gauge border
   noFill();
   stroke(0);
   rect(10, height - 30, gameState.maxJumpPower * 5, 20);
 }
-
 function checkWallCollisions() {
   // Left wall collision
   if (player.x < 0) {
