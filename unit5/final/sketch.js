@@ -1,36 +1,30 @@
+let player;
 let platforms;
 let gameState;
+let dragStart = null;
 
 function setup() {
   let canvas = createCanvas(400, 600);
-  canvas.parent('sketch-holder'); // Ensure canvas is in a container
-  
-  // Explicitly focus on the canvas to capture keyboard events
-  canvas.elt.tabIndex = 1;
-  canvas.elt.focus();
-  
+  canvas.parent('sketch-holder');
+
   // Initialize game state
   gameState = {
-    isJumping: false,
-    jumpPower: 0,
-    maxJumpPower: 20,
-    leftPressed: false,
-    rightPressed: false
+    isDragging: false,
   };
-  
-  // Create player with horizontal movement
+
+  // Create player
   player = {
     x: width / 2,
     y: height - 20,
     width: 20,
     height: 20,
-    velocityY: 0,
     velocityX: 0,
+    velocityY: 0,
     grounded: true,
     moveSpeed: 3
   };
-  
-  // Create platforms (increasing difficulty)
+
+  // Create platforms
   platforms = [
     { x: width / 2 - 100, y: height - 50, width: 200, height: 10 },
     { x: width / 2 - 80, y: height - 150, width: 160, height: 10 },
@@ -43,107 +37,89 @@ function setup() {
 
 function draw() {
   background(220);
-  
-  // Handle horizontal movement
-  handleMovement();
-  
+
   // Draw platforms
   platforms.forEach(platform => {
     fill(platform.isGoal ? color(0, 255, 0) : color(100, 100, 100));
     rect(platform.x, platform.y, platform.width, platform.height);
   });
-  
-  // Physics and movement
+
+  // Apply physics
   applyGravity();
   checkPlatformCollisions();
-  
+  checkWallCollisions();
+
   // Draw player
   fill(255, 0, 0);
   rect(player.x, player.y, player.width, player.height);
-  
-  // Jump power indicator
-  if (gameState.isJumping) {
-    fill(0, 0, 255, 100);
-    rect(10, height - 30, gameState.jumpPower * 5, 20);
+
+  // Draw drag line if dragging
+  if (gameState.isDragging && dragStart) {
+    stroke(0, 0, 255);
+    line(dragStart.x, dragStart.y, mouseX, mouseY);
   }
-  
+
+  // Display gameState status
+  fill(0);
+  textSize(16);
+  textAlign(LEFT, TOP);
+  text(`Dragging: ${gameState.isDragging}`, 10, 10);
+  text(`Player grounded: ${player.grounded}`, 10, 30);
+
   // Check win condition
   checkWinCondition();
-}
-
-function handleMovement() {
-  // Horizontal movement
-  player.velocityX = 0;
-  if (gameState.leftPressed) {
-    player.velocityX = -player.moveSpeed;
-  }
-  if (gameState.rightPressed) {
-    player.velocityX = player.moveSpeed;
-  }
-  
-  // Update player position with horizontal movement
-  player.x += player.velocityX;
 }
 
 function applyGravity() {
   player.velocityY += 0.5;
   player.y += player.velocityY;
+  player.x += player.velocityX;
+}
+
+function mousePressed() {
+  // Start dragging if player is grounded
+  if (player.grounded) {
+    gameState.isDragging = true;
+    dragStart = { x: mouseX, y: mouseY };
+  }
+}
+
+function mouseReleased() {
+  if (gameState.isDragging && dragStart) {
+    // Calculate jump trajectory
+    let dragEnd = { x: mouseX, y: mouseY };
+    let dragVector = {
+      x: dragEnd.x - dragStart.x,
+      y: dragEnd.y - dragStart.y
+    };
+
+    // Set player velocity (scaled by a factor for gameplay tuning)
+    player.velocityX = -dragVector.x * 0.1;
+    player.velocityY = -dragVector.y * 0.1;
+    player.grounded = false;
+    gameState.isDragging = false;
+    dragStart = null;
+  }
 }
 
 function keyPressed() {
-  // Prevent default browser behavior for arrow keys and space
-  if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW || keyCode === 32) {
-    return false;
-  }
-
-  // Horizontal movement
-  if (key.toLowerCase() === 'a') {
-    gameState.leftPressed = true;
-  }
-  if (key.toLowerCase() === 'd') {
-    gameState.rightPressed = true;
-  }
-  
-  // Jumping
-  if (key === ' ' && player.grounded) {
-    gameState.isJumping = true;
-    gameState.jumpPower = 0;
-  }
+  console.log(`Key pressed: ${key}`);
 }
 
 function keyReleased() {
-  // Prevent default browser behavior for arrow keys and space
-  if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW || keyCode === 32) {
-    return false;
-  }
-
-  // Horizontal movement
-  if (key.toLowerCase() === 'a') {
-    gameState.leftPressed = false;
-  }
-  if (key.toLowerCase() === 'd') {
-    gameState.rightPressed = false;
-  }
-  
-  // Execute jump when spacebar is released
-  if (key === ' ' && player.grounded) {
-    player.velocityY = -gameState.jumpPower;
-    gameState.isJumping = false;
-    gameState.jumpPower = 0;
-  }
+  console.log(`Key released: ${key}`);
 }
 
 function checkPlatformCollisions() {
   let wasGrounded = player.grounded;
   player.grounded = false;
-  
+
   platforms.forEach(platform => {
     // Horizontal collision
     if (
       player.y + player.height > platform.y &&
       player.y < platform.y + platform.height
     ) {
-      // Left collision
       if (
         player.x + player.width > platform.x &&
         player.x < platform.x &&
@@ -151,8 +127,6 @@ function checkPlatformCollisions() {
       ) {
         player.x = platform.x - player.width;
       }
-      
-      // Right collision
       if (
         player.x < platform.x + platform.width &&
         player.x + player.width > platform.x + platform.width &&
@@ -161,7 +135,7 @@ function checkPlatformCollisions() {
         player.x = platform.x + platform.width;
       }
     }
-    
+
     // Vertical collision (landing on platform)
     if (
       player.x < platform.x + platform.width &&
@@ -174,7 +148,7 @@ function checkPlatformCollisions() {
       player.velocityY = 0;
       player.grounded = true;
     }
-    
+
     // Prevent falling through platform from above
     if (
       player.x < platform.x + platform.width &&
@@ -187,10 +161,24 @@ function checkPlatformCollisions() {
       player.velocityY = 0;
     }
   });
-  
+
   // Bottom of screen boundary
   if (player.y + player.height > height) {
     resetGame();
+  }
+}
+
+function checkWallCollisions() {
+  // Left wall collision
+  if (player.x < 0) {
+    player.x = 0;
+    player.velocityX = 0;
+  }
+
+  // Right wall collision
+  if (player.x + player.width > width) {
+    player.x = width - player.width;
+    player.velocityX = 0;
   }
 }
 
@@ -205,8 +193,8 @@ function checkWinCondition() {
     textSize(32);
     fill(0);
     textAlign(CENTER, CENTER);
-    text("YOU WIN!", width/2, height/2);
-    noLoop(); // Stop the game
+    text("YOU WIN!", width / 2, height / 2);
+    noLoop();
   }
 }
 
@@ -216,8 +204,3 @@ function resetGame() {
   player.velocityY = 0;
   player.velocityX = 0;
 }
-
-function mousePressed() {
-  // Ensure canvas has focus when clicked
-  this.elt.focus();
-} 
