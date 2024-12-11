@@ -70,7 +70,7 @@ let grammar = tracery.createGrammar({
         "threadbare",
         "macabre",
         "jealous"],
-  animal: ["dragon",
+  animal: ["trout",
            "Oscar",
            "Bala shark",
            "Oregon chub",
