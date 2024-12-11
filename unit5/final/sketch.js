@@ -80,7 +80,7 @@ function draw() {
 
 function applyGravity() {
   if (!player.grounded && !gameState.isJumping) {
-    player.velocityY += 0.5;
+    player.velocityY -= 0.5;  //AI made this += 0.5 LOL
     player.y += player.velocityY;
   }
 }
