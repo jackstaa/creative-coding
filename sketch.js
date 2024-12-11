@@ -1,23 +1,26 @@
 function setup() {
-  createCanvas(800, 800);
-  noLoop();
+  createCanvas(windowWidth, windowHeight); // Set canvas size to match the window size
+  noLoop(); // Prevent continuous drawing
 }
 
 function draw() {
-  // Draw the sky gradient
+    // Draw the sky gradient
   drawSkyGradient();
 
   // Draw the mountain layers
   drawMountainLayers();
   
   drawSun();
-  
 }
 
+// Update canvas size when the window is resized
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 // function to draw the sky's gradient
 //pick 2 random colors
 function drawSkyGradient() {
-  let skyColorTop = color(random(150, 255), random(100, 150), random(120)); // random, but warm color to radiate the sun's rays
+  let skyColorTop = color(random(150, 255), random(130), random(100)); // random, but warm color to radiate the sun's rays
   let skyColorBottom = color(random(100), random(150, 200), random(200,255)); //random, but cool, trying to emulate the mountains behind the sea
   for (let y = 0; y < height; y++) { //draw the gradient
     let inter = map(y, 0, height, 0, 1);
@@ -38,9 +41,9 @@ function drawMountainLayers() {
   for (let i = 0; i < layers; i++) {
     let yOffset = height - 200-  i * layerHeight;
     let mountainColor = color(
-      random(20, 160), // Red
-      random(5, 160), // Green
-      random(30, 180), // Blue
+      random(100, 200), // Red
+      random(5, 50), // Green
+      random(125, 225), // Blue
       120              // Alpha
     );
     fill(mountainColor);
