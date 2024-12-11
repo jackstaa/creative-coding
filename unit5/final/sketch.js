@@ -12,14 +12,16 @@ function setup() {
     maxJumpPower: 20
   };
   
-  // Create player
+  // Create player with horizontal movement
   player = {
     x: width / 2,
     y: height - 20,
     width: 20,
     height: 20,
     velocityY: 0,
-    grounded: true
+    velocityX: 0,
+    grounded: true,
+    moveSpeed: 3
   };
   
   // Create platforms (increasing difficulty)
@@ -35,6 +37,9 @@ function setup() {
 
 function draw() {
   background(220);
+  
+  // Handle horizontal movement
+  handleMovement();
   
   // Draw platforms
   platforms.forEach(platform => {
@@ -60,16 +65,55 @@ function draw() {
   checkWinCondition();
 }
 
+function handleMovement() {
+  // Horizontal movement
+  player.velocityX = 0;
+  if (keyIsDown(LEFT_ARROW)) {
+    player.velocityX = -player.moveSpeed;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    player.velocityX = player.moveSpeed;
+  }
+  
+  // Update player position with horizontal movement
+  player.x += player.velocityX;
+}
+
 function applyGravity() {
   player.velocityY += 0.5;
   player.y += player.velocityY;
 }
 
 function checkPlatformCollisions() {
+  let wasGrounded = player.grounded;
   player.grounded = false;
   
   platforms.forEach(platform => {
-    // Check for landing on platform
+    // Horizontal collision
+    if (
+      player.y + player.height > platform.y &&
+      player.y < platform.y + platform.height
+    ) {
+      // Left collision
+      if (
+        player.x + player.width > platform.x &&
+        player.x < platform.x &&
+        player.velocityX > 0
+      ) {
+        player.x = platform.x - player.width;
+      }
+      
+      // Right collision
+      if (
+        player.x < platform.x + platform.width &&
+        player.x + player.width > platform.x + platform.width &&
+        player.velocityX < 0
+      ) {
+        player.x = platform.x + platform.width;
+      }
+    }
+    
+    // Vertical collision (landing on platform)
     if (
       player.x < platform.x + platform.width &&
       player.x + player.width > platform.x &&
@@ -145,4 +189,5 @@ function resetGame() {
   player.x = width / 2;
   player.y = height - 20;
   player.velocityY = 0;
+  player.velocityX = 0;
 }
