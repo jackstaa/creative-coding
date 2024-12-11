@@ -27,8 +27,13 @@
         This is an example of a book generated with a Tracery grammar.
     -->  
 
+    <!--code to put the page number at the bottom of the page, in the middle-->
     <style type="text/css">
-      
+        @page {
+            @bottom-center {
+                content: "page " counter(page);
+            }
+        } 
     </style>
 
 </head>
