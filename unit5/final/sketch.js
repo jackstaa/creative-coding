@@ -47,6 +47,7 @@ function draw() {
   // Apply physics
   applyGravity();
   checkPlatformCollisions();
+  checkWallCollisions();
 
   // Draw player
   fill(255, 0, 0);
@@ -149,6 +150,20 @@ function checkPlatformCollisions() {
   // Bottom of screen boundary
   if (player.y + player.height > height) {
     resetGame();
+  }
+}
+
+function checkWallCollisions() {
+  // Left wall collision
+  if (player.x < 0) {
+    player.x = 0;
+    player.velocityX = 0;
+  }
+
+  // Right wall collision
+  if (player.x + player.width > width) {
+    player.x = width - player.width;
+    player.velocityX = 0;
   }
 }
 
