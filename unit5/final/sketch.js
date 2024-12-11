@@ -73,16 +73,64 @@ function draw() {
     fill(0, 0, 255, 100);
     rect(10, height - 30, gameState.jumpPower * 5, 20);
   }
-  
+  drawJumpPowerGauge();
   // Check win condition
   checkWinCondition();
 }
 
 function applyGravity() {
-  if (!player.grounded && !gameState.isJumping) {
-    player.velocityY -= 0.5;  //AI made this += 0.5 LOL
+  if (!player.grounded) {
+    player.velocityY -= 0.5;
     player.y += player.velocityY;
+  } else {
+    player.velocityY = 0;
   }
+}
+
+function keyPressed() {
+  // Charge jump
+  if (key === ' ' && player.grounded) {
+    gameState.isJumping = true;
+    gameState.jumpPower = 0;
+  }
+}
+
+function keyReleased() {
+  // Execute jump
+  if (key === ' ' && gameState.isJumping && player.grounded) {
+    let jumpMultiplier = gameState.jumpPower / 2;
+    
+    if (keyIsDown(65)) { // A key for left
+      player.velocityX = -jumpMultiplier;
+      player.velocityY = -jumpMultiplier;
+    } else if (keyIsDown(68)) { // D key for right
+      player.velocityX = jumpMultiplier;
+      player.velocityY = -jumpMultiplier;
+    } else { // Straight up jump
+      player.velocityY = -gameState.jumpPower;
+    }
+    
+    gameState.isJumping = false;
+    player.grounded = false;
+    gameState.jumpPower = 0;
+  }
+  
+  // Charge jump power while space is held
+  if (key === ' ' && gameState.isJumping) {
+    gameState.jumpPower = min(gameState.jumpPower + 1, gameState.maxJumpPower);
+  }
+}
+
+
+function drawJumpPowerGauge() {
+  // Draw the jump power gauge
+  fill(0, 0, 255, 100);
+  rect(10, height - 30, gameState.jumpPower * 5, 20);
+  
+  // Draw the gauge border
+  noFill();
+  stroke(0);
+  rect(10, height - 30, gameState.maxJumpPower * 5, 20);
 }
 
 function checkWallCollisions() {
@@ -156,41 +204,6 @@ function checkPlatformCollisions() {
   // Bottom of screen boundary
   if (player.y + player.height > height) {
     resetGame();
-  }
-}
-
-function keyPressed() {
-  // Charge jump
-  if (key === ' ' && player.grounded) {
-    gameState.isJumping = true;
-    gameState.jumpPower = 0;
-  }
-}
-
-function keyReleased() {
-  // Execute jump
-  if (key === ' ' && gameState.isJumping && player.grounded) {
-    // Determine jump direction based on simultaneous key presses
-    let jumpMultiplier = gameState.jumpPower / 2;
-    
-    if (keyIsDown(65)) { // A key for left
-      player.velocityX = -jumpMultiplier;
-      player.velocityY = -jumpMultiplier;
-    } else if (keyIsDown(68)) { // D key for right
-      player.velocityX = jumpMultiplier;
-      player.velocityY = -jumpMultiplier;
-    } else { // Straight up jump
-      player.velocityY = -gameState.jumpPower;
-    }
-    
-    gameState.isJumping = false;
-    player.grounded = false;
-    gameState.jumpPower = 0;
-  }
-  
-  // Charge jump power while space is held
-  if (key === ' ' && gameState.isJumping) {
-    gameState.jumpPower = min(gameState.jumpPower + 1, gameState.maxJumpPower);
   }
 }
 
