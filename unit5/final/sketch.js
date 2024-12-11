@@ -49,21 +49,34 @@ function draw() {
   
   displayKeyPresses();
   
+  // Draw platforms
   platforms.forEach(platform => {
     fill(platform.isGoal ? color(0, 255, 0) : color(100, 100, 100));
     rect(platform.x, platform.y, platform.width, platform.height);
   });
   
+  // Update player position
   applyGravity();
+  player.x += player.velocityX;
+  player.y += player.velocityY;
+  
   checkPlatformCollisions();
   checkWallCollisions();
   
+  // Draw player
   fill(255, 0, 0);
   rect(player.x, player.y, player.width, player.height);
   
+  // Draw jump power gauge
   drawJumpPowerGauge();
   
+  // Check win condition
   checkWinCondition();
+  
+  // Charge jump power if jumping
+  if (gameState.isJumping && gameState.jumpPower < gameState.maxJumpPower) {
+    gameState.jumpPower += 0.5;
+  }
 }
 
 function applyGravity() {
