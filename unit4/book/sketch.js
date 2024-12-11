@@ -20,6 +20,7 @@ let grammar = tracery.createGrammar({
             "a bunch of",
             "twenty",
             "a school of"],
+  //From https://perchance.org/adjective
   adj: ["esteemed",
         "pristine",
         "striking",
@@ -70,6 +71,7 @@ let grammar = tracery.createGrammar({
         "threadbare",
         "macabre",
         "jealous"],
+   //List from https://perchance.org/fish-species
   animal: ["trout",
            "Oscar",
            "Bala shark",
@@ -120,6 +122,7 @@ let grammar = tracery.createGrammar({
            "Kokopu",
            "Chimaera",
            "Rainbowfish"],
+//From https://perchance.org/verb
   verb: ["divide",
          "appreciate",
          "open",
