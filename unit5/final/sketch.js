@@ -100,7 +100,7 @@ function applyGravity() {
 function keyPressed() {
   // Prevent default browser behavior for arrow keys and space
   if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW || keyCode === 32) {
-    return false;
+    event.preventDefault(); 
   }
 
   // Horizontal movement
