@@ -1,5 +1,11 @@
+/* I wanted to use Tracery for this project because I thought it would be fun.
+   When in doubt do something related to fishing, becasue there are absurd amounts of fish
+   I used the tracery example to format my grammar and updated the setup function as needed
+   please enjoy my book about various fish doing various things
+*/
+
 let grammar = tracery.createGrammar({
-  bookTitle : "Various Fishes Doing Some Sort of Something",
+  bookTitle : "Fish Doing Some Sort of Something",
   chapterTitle : ["#number.capitalize# #adj.capitalize# #animal.s.capitalize#"],
   sentence : "The #adj# #animal# #verb#.",
   number : ["two",
