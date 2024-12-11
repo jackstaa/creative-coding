@@ -207,7 +207,7 @@ function setup() {
       p++;
     }while (p < random(40,130));
     c++;
-  }while (c < 55);
+  }while (c < 60); //added more chapters to make sure it meets requirements
  
   // trigger the polyfill rendering
   window.PagedPolyfill.preview();
