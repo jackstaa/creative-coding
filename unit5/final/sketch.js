@@ -80,7 +80,7 @@ function draw() {
 
 function applyGravity() {
   if (!player.grounded) {
-    player.velocityY -= 0.5;
+    player.velocityY += 0.5;
     player.y += player.velocityY;
   } else {
     player.velocityY = 0;
