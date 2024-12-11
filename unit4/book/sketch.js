@@ -4,6 +4,9 @@
    please enjoy my book about various fish doing various things
 */
 
+
+//grammar format is from the tracery example
+//the number idea is replaced to make it a little more vague
 let grammar = tracery.createGrammar({
   bookTitle : "Fish Doing Some Sort of Something",
   chapterTitle : ["#number.capitalize# #adj.capitalize# #animal.s.capitalize#"],
@@ -175,6 +178,8 @@ let grammar = tracery.createGrammar({
 // add some modifiers to help Tracery
 grammar.addModifiers(tracery.baseEngModifiers);
 
+
+// setup function is from the tracery example source code located at https://zachwhalen.github.io/creative-coding/unit4/book/example-tracery/
 function setup() {
   noCanvas();
   
