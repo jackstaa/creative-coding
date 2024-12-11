@@ -68,10 +68,10 @@ function draw() {
 function handleMovement() {
   // Horizontal movement
   player.velocityX = 0;
-  if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(65)) {
     player.velocityX = -player.moveSpeed;
   }
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(68)) {
     player.velocityX = player.moveSpeed;
   }
   
