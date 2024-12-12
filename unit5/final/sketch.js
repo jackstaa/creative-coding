@@ -79,8 +79,7 @@ function draw() {
     checkWallCollisions();
 
     // Draw player
-    fill(255, 0, 0);
-    rect(player.x, player.y, player.width, player.height);
+    image(img, player.x, player.y, player.width, player.height);
   
     drawJumpMeter();
 
