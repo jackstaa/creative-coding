@@ -5,6 +5,11 @@ let platforms;
 let gameState;
 let resetButton;
 
+function preload(){
+  img = loadImage("box.png");
+  img2 = loadImage("bg.jpg");
+}
+
 function setup() {
     let canvas = createCanvas(400, 1000);
     //canvas.parent('sketch-holder');
@@ -56,6 +61,7 @@ function initializeGame() {
 
 function draw() {
     background(220);
+    image(img2, 0,0, 400, 1000);
 
     // Draw platforms
     platforms.forEach(platform => {
