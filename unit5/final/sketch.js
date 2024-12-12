@@ -6,7 +6,7 @@ let gameState;
 let resetButton;
 
 function setup() {
-    let canvas = createCanvas(400, 600);
+    let canvas = createCanvas(400, 1000);
     //canvas.parent('sketch-holder');
 
     // Initialize game state
@@ -38,26 +38,24 @@ function initializeGame() {
     };
 
     platforms = [
-        // Large platform on the left side of the screen
         { x: 0, y: height - 100, width: 110, height: 10 },
         { x: 0, y: height, width: 400, height: 10 },
-        // Large platform on the right side of the screen
         { x: width - 150, y: height - 100, width: 110, height: 10 },
-        // Platform above, in the middle
         { x: width / 2 - 50, y: height - 200, width: 110, height: 10 },
-        // Platform in the middle right
         { x: width - 100, y: height - 300, width: 80, height: 10 },
-        // Platform in the middle left
         { x: 20, y: height - 300, width: 80, height: 10 },
-        // Goal platform
-        { x: width / 2, y: 100, width: 25, height: 10, isGoal: true }
+        { x: 0, y: height - 400, width: 70, height: 10 },
+        { x: width - 100, y: height - 600, width: 100, height: 10 },
+        { x: width / 2, y: height - 400, width: 110, height: 10 },
+        { x: width / 2 - 50, y: height - 700, width: 110, height: 10 },
+        { x: width / 2 - 50, y: height - 550, width: 110, height: 10 },
+        { x: 0, y: height - 750, width: 100, height: 10 },
+        { x: width / 2, y: 60, width: 30, height: 10, isGoal: true }
     ];
 }
 
 function draw() {
     background(220);
-
-    displayKeyPresses();
 
     // Draw platforms
     platforms.forEach(platform => {
@@ -77,9 +75,8 @@ function draw() {
     // Draw player
     fill(255, 0, 0);
     rect(player.x, player.y, player.width, player.height);
-
-    // Draw jump power gauge
-    drawJumpPowerGauge();
+  
+    drawJumpMeter();
 
     // Check win condition
     checkWinCondition();
@@ -93,29 +90,53 @@ function applyGravity() {
     }
 }
 
-function handleJump() {
-    if (keyIsDown(32) && player.grounded) { // Space key
-        player.velocityY = -15; // Base jump velocity
+let jumpTimer = 0;
+const maxJumpTime = 1000; // Maximum jump charge time in milliseconds
 
-        if (keyIsDown(65)) { // A key
-            player.velocityX = -5;
-        } else if (keyIsDown(68)) { // D key
-            player.velocityX = 5;
-        } else {
-            player.velocityX = 0;
-        }
+function drawJumpMeter() {
+  // Draw the jump meter background
+  fill(0, 0, 0, 50);
+  rect(10, height - 50, 200, 30);
 
-        player.grounded = false;
-    }
+  // Draw the jump meter fill
+  fill(0, 0, 255);
+  rect(10, height - 50, map(jumpTimer, 0, maxJumpTime, 0, 200), 30);
+
+  // Draw the jump meter border
+  noFill();
+  stroke(0);
+  rect(10, height - 50, 200, 30);
 }
 
-function drawJumpPowerGauge() {
-    fill(0, 0, 255, 100);
-    rect(10, height - 30, gameState.jumpPower * 5, 20);
+function handleJump() {
+  // Hold space to charge the jump
+  if (keyIsDown(32)) {
+    // Increment the jump timer while space is held
+    jumpTimer += deltaTime;
+    jumpTimer = min(jumpTimer, maxJumpTime);
+  } else {
+    // Execute the jump when space is released
+    if (jumpTimer > 0 && player.grounded) {
+      // Calculate jump velocity based on charge time
+      const jumpPower = map(jumpTimer, 0, maxJumpTime, 0, 20);
 
-    noFill();
-    stroke(0);
-    rect(10, height - 30, gameState.maxJumpPower * 5, 20);
+      // Determine jump direction based on key presses
+      let xVelocity = 0;
+      if (keyIsDown(65)) { // A key for left
+        xVelocity = -5;
+      } else if (keyIsDown(68)) { // D key for right
+        xVelocity = 5;
+      }
+
+      // Apply the jump forces
+      player.velocityY = -jumpPower;
+      player.velocityX = xVelocity;
+      player.grounded = false;
+    }
+
+    // Reset the jump timer when space is released
+    jumpTimer = 0;
+  }
 }
 
 function checkWallCollisions() {
@@ -189,15 +210,4 @@ function checkWinCondition() {
 function resetGame() {
     // Reset game to initial state
     initializeGame();
-}
-
-function displayKeyPresses() {
-    // Debugging key press information
-    fill(0);
-    textSize(12);
-    textAlign(LEFT, TOP);
-    text(`Space Held: ${keyIsDown(32)}`, 10, 10);
-    text(`A Held: ${keyIsDown(65)}`, 10, 25);
-    text(`D Held: ${keyIsDown(68)}`, 10, 40);
-    text(`Jump Power: ${gameState.jumpPower}`, 10, 55);
 }
