@@ -6,7 +6,7 @@ let gameState;
 let resetButton;
 
 function preload(){
-  img = loadImage("box.PNG");
+  img = loadImage("box.png");
   img2 = loadImage("bg.jpg");
 }
 
