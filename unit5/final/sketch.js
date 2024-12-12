@@ -57,7 +57,7 @@ function initializeGame() {
         { x: width / 2 - 50, y: height - 700, width: 110, height: 10 },
         { x: width / 2 - 50, y: height - 550, width: 110, height: 10 },
         { x: 0, y: height - 750, width: 100, height: 10 },
-        { x: width / 2, y: 60, width: 30, height: 10, isGoal: true }
+        { x: width / 2, y: 45, width: 50, height: 10, isGoal: true }
     ];
 }
 
