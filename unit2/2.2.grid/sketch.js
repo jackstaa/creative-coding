@@ -42,16 +42,15 @@ function setup() {
 function draw() {
    background(220);
    const grid = 256;
-   const cell = width / grid;
+   const x = 0;
+   const y = 0;
    for (r = 0; r < 256; r++){
       for (g = 0; g < 256; g++){
          for (b = 0; b < 256; b++){
-            
-        const x = (r * grid + g) % width; // horizontal
-        const y = floor((r * grid + g) / width) * cell; // vertical
-
+            x =  ((r*grid) + g) % width;
+            y =  floor((r * grid + g) / width) * cell;
            fill(r, g, b);
-           rect(x, y, cell, cell);
+           rect(x, y, 2, 2);
          }
       }
    }
