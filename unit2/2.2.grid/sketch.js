@@ -33,6 +33,7 @@
 
 // making a grid for all 16,777,216 rgb values
 // Time complexity of O(N^3) LOL
+// this will always take ages to load but maybe it will look cool who knows
 function setup() {
    // create a canvas
    createCanvas(512, 512);
