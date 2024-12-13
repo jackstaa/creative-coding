@@ -32,11 +32,26 @@
 // }
 
 // making a grid for all 16,777,216 rgb values
+// Time complexity of O(N^3) LOL
 function setup() {
    // create a canvas
    createCanvas(512, 512);
    noLoop();
  }
 function draw() {
- 
+   background(220);
+   const grid = 256;
+   const cell = width / grid;
+   for (r = 0; r < 256; r++){
+      for (g = 0; g < 256; g++){
+         for (b = 0; b < 256; b++){
+            
+        const x = (r * grid + g) % width; // horizontal
+        const y = floor((r * grid + g) / width) * cell; // vertical
+
+           fill(r, g, b);
+           rect(x, y, cell, cell);
+         }
+      }
+   }
 }
