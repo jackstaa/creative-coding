@@ -1,5 +1,5 @@
 function setup() {
-  createCanvas(2208, 1242); // Set canvas size to match the window size
+  createCanvas(windowWidth, windowHeight); // Set canvas size to match the window size
   noLoop(); // Prevent continuous drawing
 }
 
