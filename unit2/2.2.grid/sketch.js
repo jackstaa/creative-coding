@@ -42,13 +42,13 @@ function setup() {
 function draw() {
    background(220);
    const grid = 256;
-   const x = 0;
-   const y = 0;
+   let x = 0;
+   let y = 0;
    for (r = 0; r < 256; r++){
       for (g = 0; g < 256; g++){
          for (b = 0; b < 256; b++){
             x =  ((r*grid) + g) % width;
-            y =  floor((r * grid + g) / width) * cell;
+            y =  floor((r * grid + g) / width) * 2;
            fill(r, g, b);
            rect(x, y, 2, 2);
          }
