@@ -15,7 +15,7 @@ function draw() {
 
 // Update canvas size when the window is resized
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(1920, 1080);
 }
 // function to draw the sky's gradient
 //pick 2 random colors
