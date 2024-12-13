@@ -1,5 +1,5 @@
 function setup() {
-  createCanvas(windowWidth, windowHeight); // Set canvas size to match the window size
+  createCanvas(1920, 1240); // Set canvas size to match the window size
   noLoop(); // Prevent continuous drawing
 }
 
@@ -15,7 +15,7 @@ function draw() {
 
 // Update canvas size when the window is resized
 function windowResized() {
-  resizeCanvas(1920, 1080);
+  resizeCanvas(windowWidth, windowHeight);
 }
 // function to draw the sky's gradient
 //pick 2 random colors
