@@ -55,7 +55,17 @@ function draw() {
     speedy = -velocity;
 
   }
-
+//MAKE SURE THE GHOST STAYS IN THE MAP
+   if(x > width){
+	   x = width;
+   } else if (x <= 0){
+	   x = 1;
+   }
+   if(y > height){
+	   y = height;
+   } else if (y <= 0){
+	   y = 1;
+   }
   // check for a collision with the ghost
   if(d < 25){
     score = score - 1;
@@ -74,7 +84,7 @@ function draw() {
     x = random(width);
     y = random(height);
 
-    goalx = random(width-20);
+    goalx = random(width-20); // make sure the goal is inside the map
     goaly = random(height-20);
   }
   textSize(20);
