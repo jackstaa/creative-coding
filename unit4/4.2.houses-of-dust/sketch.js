@@ -130,7 +130,7 @@ let grammar = tracery.createGrammar(
 );
 
 function setup() {
-  createCanvas(600, 500);
+  createCanvas(600, 950);
   frameRate(.1);
 }
 
