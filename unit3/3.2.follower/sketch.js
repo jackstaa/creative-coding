@@ -17,7 +17,7 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(934, 451); // same dims as the map
+  createCanvas(400, 400); // same dims as the map
   x = random(width);
   y = random(height);
   goalx = random(width);
