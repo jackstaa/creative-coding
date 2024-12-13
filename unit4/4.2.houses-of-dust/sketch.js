@@ -136,7 +136,7 @@ function setup() {
 
 function draw() {
   background(220);
-  textSize(15);
+  textSize(20);
 
   //loop to create the stanzas
   for(let i = 1; i < 30; i+=3){
