@@ -16,18 +16,63 @@
         I wanted to have the mountains be a wide variety of colors, not really sure exactly why, but I like the way it can contrast against the sky and the sea.
     -->  
 
-    <style type="text/css">
+    <style>
         body {
-            background-color:#444444;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            font-family: Arial, sans-serif;
         }
-        main {
+
+        .container {
+            display: flex;
+            flex-direction: row;
             width: 100%;
+            height: 100%;
         }
-        canvas {
-            display:block;
-            margin: 0 auto;
+
+        .left {
+            position: absolute;
+            left: 25%;
+            width: 400px;
+            height: 1000px;
+        }
+
+        .right {
+            position: absolute;
+            left: calc(30% + 400px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        iframe {
+            border: none;
+        }
+
+        .sketch1 {
+            width: 400px;
+            height: 1000px;
+        }
+
+        .sketch2, .sketch3 {
+            width: 400px;
+            height: 400px;
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <iframe class="sketch1" src="https://jackstaa.github.io/creative-coding/unit5/final/index.html"></iframe>
+        </div>
+        <div class="right">
+            <iframe class="sketch2" src="https://jackstaa.github.io/creative-coding/unit4/4.2.houses-of-dust/"></iframe>
+            <iframe class="sketch3" src="https://jackstaa.github.io/creative-coding/unit3/3.2.follower/"></iframe>
+        </div>
+    </div>
 
 </head>
 <body>
