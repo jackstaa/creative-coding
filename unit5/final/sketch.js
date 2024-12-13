@@ -20,7 +20,7 @@ function setup() {
 
     // Create reset button
     resetButton = createButton('Reset Game');
-    resetButton.position(10, height + 10);
+    resetButton.position(width-400, height + 10);
     resetButton.mousePressed(resetGame);
 }
 
