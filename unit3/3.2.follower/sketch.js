@@ -74,8 +74,8 @@ function draw() {
     x = random(width);
     y = random(height);
 
-    goalx = random(width);
-    goaly = random(height);
+    goalx = random(width-20);
+    goaly = random(height-20);
   }
   textSize(20);
   fill("white");
