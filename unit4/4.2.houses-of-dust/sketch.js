@@ -131,7 +131,7 @@ let grammar = tracery.createGrammar(
 
 function setup() {
   createCanvas(600, 500);
-  noLoop();
+  frameRate(.1);
 }
 
 function draw() {
