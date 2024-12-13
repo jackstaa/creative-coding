@@ -130,13 +130,13 @@ let grammar = tracery.createGrammar(
 );
 
 function setup() {
-  createCanvas(800, 800);
-  frameRate(.1);
+  createCanvas(600, 500);
+  noLoop();
 }
 
 function draw() {
   background(220);
-  textSize(25);
+  textSize(15);
 
   //loop to create the stanzas
   for(let i = 1; i < 30; i+=3){
