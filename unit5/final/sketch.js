@@ -57,7 +57,7 @@ function initializeGame() {
         { x: width / 2 - 50, y: height - 700, width: 110, height: 10 },
         { x: width / 2 - 50, y: height - 550, width: 110, height: 10 },
         { x: 0, y: height - 750, width: 100, height: 10 },
-        { x: width / 2, y: 45, width: 50, height: 10, isGoal: true }
+        { x: width / 2, y: 45, width: 40, height: 10, isGoal: true }
     ];
 }
 
@@ -83,7 +83,8 @@ function draw() {
     // Draw player
     image(img, player.x, player.y, player.width, player.height);
   
-    drawJumpMeter();
+  //remove the jump meter to make the game harder
+    //drawJumpMeter();
 
     // Check win condition
     checkWinCondition();
@@ -100,20 +101,20 @@ function applyGravity() {
 
 // helper function to try to help the player time their jump
 // otherwise i think this game might be too difficult to be fun
-function drawJumpMeter() {
-  // Draw the jump meter background
-  fill(0, 0, 0, 50);
-  rect(10, height - 50, 200, 30);
+// function drawJumpMeter() {
+//   // Draw the jump meter background
+//   fill(0, 0, 0, 50);
+//   rect(10, height - 50, 200, 30);
 
-  // Draw the jump meter fill
-  fill(0, 0, 255);
-  rect(10, height - 50, map(jumpTimer, 0, maxJumpTime, 0, 200), 30);
+//   // Draw the jump meter fill
+//   fill(0, 0, 255);
+//   rect(10, height - 50, map(jumpTimer, 0, maxJumpTime, 0, 200), 30);
 
-  // Draw the jump meter border
-  noFill();
-  stroke(0);
-  rect(10, height - 50, 200, 30);
-}
+//   // Draw the jump meter border
+//   noFill();
+//   stroke(0);
+//   rect(10, height - 50, 200, 30);
+// }
 
 function handleJump() {
   // Hold space to charge the jump
