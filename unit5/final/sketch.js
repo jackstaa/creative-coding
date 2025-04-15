@@ -3,232 +3,232 @@ let player;
 let platforms;
 let gameState;
 let resetButton;
-let jumpTimer = 0; //
-const maxJumpTime = 1000; // Maximum jump charge time, basically what this does is it caps the players jump height at 20 pixels, but you have to hold the spacebar down for a second to reach said jump height
+let jumpTimer = 0;
+const maxJumpTime = 1000; // Maximum jump charge time
 
-function preload(){ //preload method from unit 3's follower game
+function preload() {
   img = loadImage("box.png");
   img2 = loadImage("bg.jpg");
 }
 
 function setup() {
-    let canvas = createCanvas(400, 1000);
-    //canvas.parent('sketch-holder'); <-- didnt end up needing this but its still in the index file so if theres any question about it thats why its there
-
-    // Initialize game state
-    initializeGame();
-
-    // Create reset button
-    resetButton = createButton('Reset Game');
-    resetButton.position(width-400, height + 10);
-    resetButton.mousePressed(resetGame);
+  let canvas = createCanvas(400, 1000);
+  // canvas.parent('sketch-holder'); // kept for potential legacy use
+  initializeGame();
+  
+  // Create reset button
+  resetButton = createButton('Reset Game');
+  resetButton.position(width - 400, height + 10);
+  resetButton.mousePressed(resetGame);
 }
 
 function initializeGame() {
-  //this section basically lays the groundwork for the game itself
-    gameState = {
-        isJumping: false,
-        jumpPower: 0,
-        maxJumpPower: 20,
-        jumpDirection: null,
-        gameOver: false
-    };
-//player constructor to set up the position and variables that go into moving the box around
-    player = {
-        x: width / 2,
-        y: height - 50,
-        width: 20,
-        height: 20,
-        velocityY: 0,
-        velocityX: 0,
-        grounded: true
-    };
-//This array is to set up the course, changing it around can make the game harder or easier
-    platforms = [
-        { x: 0, y: height - 100, width: 110, height: 10 },
-        { x: 0, y: height, width: 400, height: 10 },
-        { x: width - 150, y: height - 100, width: 110, height: 10 },
-        { x: width / 2 - 50, y: height - 200, width: 110, height: 10 },
-        { x: width - 100, y: height - 300, width: 80, height: 10 },
-        { x: 20, y: height - 300, width: 80, height: 10 },
-        { x: 0, y: height - 400, width: 70, height: 10 },
-        { x: width - 100, y: height - 600, width: 100, height: 10 },
-        { x: width / 2, y: height - 400, width: 110, height: 10 },
-        { x: width / 2 - 50, y: height - 700, width: 110, height: 10 },
-        { x: width / 2 - 50, y: height - 550, width: 110, height: 10 },
-        { x: 0, y: height - 750, width: 100, height: 10 },
-        { x: width / 2, y: 45, width: 40, height: 10, isGoal: true }
-    ];
+  // Initialize game state
+  gameState = {
+    isJumping: false,
+    jumpPower: 0,
+    maxJumpPower: 20,
+    jumpDirection: null,
+    gameOver: false
+  };
+  
+  // Set up player with previous position fields for robust collision detection
+  player = {
+    x: width / 2,
+    y: height - 50,
+    prevX: width / 2,
+    prevY: height - 50,
+    width: 20,
+    height: 20,
+    velocityY: 0,
+    velocityX: 0,
+    grounded: true
+  };
+
+  // Define the platforms. One platform has an extra property isGoal.
+  platforms = [
+    { x: 0, y: height - 100, width: 110, height: 10 },
+    { x: 0, y: height, width: 400, height: 10 },
+    { x: width - 150, y: height - 100, width: 110, height: 10 },
+    { x: width / 2 - 50, y: height - 200, width: 110, height: 10 },
+    { x: width - 100, y: height - 300, width: 80, height: 10 },
+    { x: 20, y: height - 300, width: 80, height: 10 },
+    { x: 0, y: height - 400, width: 70, height: 10 },
+    { x: width - 100, y: height - 600, width: 100, height: 10 },
+    { x: width / 2, y: height - 400, width: 110, height: 10 },
+    { x: width / 2 - 50, y: height - 700, width: 110, height: 10 },
+    { x: width / 2 - 50, y: height - 550, width: 110, height: 10 },
+    { x: 0, y: height - 750, width: 100, height: 10 },
+    { x: width / 2, y: 45, width: 40, height: 10, isGoal: true }
+  ];
 }
 
 function draw() {
-    background(220);
-    image(img2, 0,0, 400, 1000); // add the image of the warehouse
+  background(220);
+  image(img2, 0, 0, 400, 1000); // Draw background
 
-    // Draw platforms
-    platforms.forEach(platform => {
-        fill(platform.isGoal ? color(0, 255, 0) : color(100, 100, 100));
-        rect(platform.x, platform.y, platform.width, platform.height);
-    });
+  // Draw platforms – goal platforms are highlighted in green
+  platforms.forEach(platform => {
+    fill(platform.isGoal ? color(0, 255, 0) : color(100, 100, 100));
+    rect(platform.x, platform.y, platform.width, platform.height);
+  });
 
-    // Update player position
-    handleJump();
-    applyGravity();
-    player.x += player.velocityX;
-    player.y += player.velocityY;
+  // Update previous position for collision detection
+  player.prevX = player.x;
+  player.prevY = player.y;
 
-    checkPlatformCollisions();
-    checkWallCollisions();
+  // Handle user input for jump charging and air control
+  handleJump();      // handles charging jump and launching when space is released
+  handleAirControl(); // allow slight horizontal adjustments while airborne
 
-    // Draw player
-    image(img, player.x, player.y, player.width, player.height);
-  
-  //remove the jump meter to make the game harder
-    //drawJumpMeter();
+  // Apply gravity if not grounded
+  applyGravity();
 
-    // Check win condition
-    checkWinCondition();
+  // Update player position using current velocity values
+  player.x += player.velocityX;
+  player.y += player.velocityY;
+
+  // Check collisions against platforms and walls
+  checkPlatformCollisions();
+  checkWallCollisions();
+
+  // Draw the player
+  image(img, player.x, player.y, player.width, player.height);
+
+  // Check for win condition
+  checkWinCondition();
 }
 
-//this function makes the player fall if they are not grounded
+// Apply gravity only when the player is not on a platform
 function applyGravity() {
-    if (!player.grounded) {
-        player.velocityY += 0.5;
-    } else {
-        player.velocityY = 0;
-    }
+  if (!player.grounded) {
+    player.velocityY += 0.5;
+  } else {
+    player.velocityY = 0;
+  }
 }
 
-// helper function to try to help the player time their jump
-// otherwise i think this game might be too difficult to be fun
-// function drawJumpMeter() {
-//   // Draw the jump meter background
-//   fill(0, 0, 0, 50);
-//   rect(10, height - 50, 200, 30);
-
-//   // Draw the jump meter fill
-//   fill(0, 0, 255);
-//   rect(10, height - 50, map(jumpTimer, 0, maxJumpTime, 0, 200), 30);
-
-//   // Draw the jump meter border
-//   noFill();
-//   stroke(0);
-//   rect(10, height - 50, 200, 30);
-// }
-
+// Handle jump charging and launching when the spacebar is released.
+// Also supports both A/D and LEFT/RIGHT arrow keys for horizontal influence at jump time.
 function handleJump() {
-  // Hold space to charge the jump
-  if (keyIsDown(32)) {
-    // Increment the jump timer while space is held
+  // If space is held, charge the jump
+  if (keyIsDown(32)) { // SPACE key code
     jumpTimer += deltaTime;
     jumpTimer = min(jumpTimer, maxJumpTime);
   } else {
-    // Execute the jump when space is released
+    // On releasing space, if the player is grounded and a charge exists, trigger the jump.
     if (jumpTimer > 0 && player.grounded) {
-      // Calculate jump velocity based on charge time
-      const jumpPower = map(jumpTimer, 0, maxJumpTime, 0, 20);
+      // Map jumpTimer to a jump power up to gameState.maxJumpPower (20 pixels max jump height)
+      const jumpPower = map(jumpTimer, 0, maxJumpTime, 0, gameState.maxJumpPower);
 
-      // Determine jump direction based on key presses
+      // Determine horizontal jump velocity based on input.
+      // Supports both A/D keys and LEFT/RIGHT arrows.
       let xVelocity = 0;
-      if (keyIsDown(65)) { // A key for left
+      if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) { // A key or left arrow
         xVelocity = -5;
-      } else if (keyIsDown(68)) { // D key for right
+      } else if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) { // D key or right arrow
         xVelocity = 5;
       }
 
-      // Apply the XY velocity using the if statements above
-      player.velocityY = -jumpPower; //jumpPower is calculated based on how long you hold space for
+      // Apply the jump velocities (negative jumpPower means upward motion)
+      player.velocityY = -jumpPower;
       player.velocityX = xVelocity;
       player.grounded = false;
     }
-
-    // Reset the jump timer when space is released
+    // Reset the jump timer after processing
     jumpTimer = 0;
   }
 }
 
-//simple collision mechanics to make players "bounce" off of the walls
+// Allow slight horizontal control while in the air.
+// This enhances responsiveness without altering the core challenge.
+function handleAirControl() {
+  if (!player.grounded) {
+    // Adjust horizontal velocity gradually
+    if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) {
+      player.velocityX -= 0.2;
+    }
+    if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) {
+      player.velocityX += 0.2;
+    }
+    // Constrain horizontal speed to a maximum value
+    player.velocityX = constrain(player.velocityX, -5, 5);
+  }
+}
+
+// Reverse velocity on wall collisions and clamp the player's position within the canvas.
 function checkWallCollisions() {
-    // Left wall collision
-    if (player.x < 0) {
-        player.x = 0;
-        player.velocityX = -player.velocityX;
-    }
-
-    // Right wall collision
-    if (player.x + player.width > width) {
-        player.x = width - player.width;
-        player.velocityX = -player.velocityX;
-    }
+  // Left wall collision
+  if (player.x < 0) {
+    player.x = 0;
+    player.velocityX = -player.velocityX;
+  }
+  // Right wall collision
+  if (player.x + player.width > width) {
+    player.x = width - player.width;
+    player.velocityX = -player.velocityX;
+  }
 }
 
-// this is where it gets funky
-// this part was mainly AI generated so there are some key flaws
-// There is a bug where the player will simply just fall through a platform if they are going too fast
-// or they will fall through a platform if they bounce off of a wall just before hitting the platform whilst falling
-// my best idea to combat this was to add a reset button tbh
+// Improved platform collision detection using player's previous position.
+// This handles both landing collisions and head collisions reliably even at high speeds.
 function checkPlatformCollisions() {
-    player.grounded = false;
+  // Assume not grounded until a collision is detected.
+  player.grounded = false;
 
-    platforms.forEach(platform => {
-        // Vertical collision (landing on platform)
-        if (
-            player.x < platform.x + platform.width &&
-            player.x + player.width > platform.x &&
-            player.y + player.height >= platform.y &&
-            player.y + player.height <= platform.y + 10 &&
-            player.velocityY > 0
-        ) {
-            player.y = platform.y - player.height;
-            player.velocityY = 0;
-            player.grounded = true;
-            player.velocityX = 0;
-        }
+  platforms.forEach(platform => {
+    // Check for horizontal overlap first.
+    const isHorizontallyOverlapping =
+      player.x < platform.x + platform.width &&
+      player.x + player.width > platform.x;
 
-        // Prevent falling through platform from above
-        if (
-            player.x < platform.x + platform.width &&
-            player.x + player.width > platform.x &&
-            player.y < platform.y + platform.height &&
-            player.y + player.height > platform.y &&
-            player.velocityY < 0
-        ) {
-            player.y = platform.y + platform.height;
-            player.velocityY = 0;
-        }
-      
-    });
+    if (isHorizontallyOverlapping) {
+      // LANDING COLLISION:
+      // If falling (velocityY >= 0) and the bottom of the player crossed the platform's top between frames.
+      if (player.velocityY >= 0 &&
+          player.prevY + player.height <= platform.y &&
+          player.y + player.height >= platform.y) {
+        player.y = platform.y - player.height;
+        player.velocityY = 0;
+        player.grounded = true;
+        // Optionally, reset horizontal speed on landing:
+        player.velocityX = 0;
+      }
 
-    // Bottom of screen boundary
-    // this was causing some errors so I actually added an extra platform to the bottom of the screen
-   // this section should never be triggered
-  // unless of course the player phases through the platform like i addressed in the top part
-  // which is why its still here and not removed
-    if (player.y + player.height > height) {
-        resetGame();
+      // HEAD COLLISION:
+      // If ascending (velocityY < 0) and the top of the player crosses the platform's bottom.
+      if (player.velocityY < 0 &&
+          player.prevY >= platform.y + platform.height &&
+          player.y <= platform.y + platform.height) {
+        player.y = platform.y + platform.height;
+        player.velocityY = 0;
+      }
     }
+  });
+
+  // Bottom boundary check (in case the player falls off the screen).
+  if (player.y + player.height > height) {
+    resetGame();
+  }
 }
 
-// here we use the same ideas as the previous function to apply a collision mechanic specially to the top platform
+// Check if the player has landed on the designated goal platform.
 function checkWinCondition() {
-    const goalPlatform = platforms.find(p => p.isGoal);
-    if (
-        player.y + player.height <= goalPlatform.y &&
-        player.x + player.width > goalPlatform.x &&
-        player.x < goalPlatform.x + goalPlatform.width &&
-        player.grounded === true // ensuring that you have to land on the platform to win
-    ) {
-      //the lines below add a message telling the user they beat the game, I doubt anyones gonna see this honestly
-        textSize(32);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text("YOU WIN!", width / 2, height / 2);
-        noLoop(); // Stop the game
-    }
+  const goalPlatform = platforms.find(p => p.isGoal);
+  if (goalPlatform &&
+      player.grounded &&
+      player.y + player.height <= goalPlatform.y + 5 && // allow a small margin
+      player.x + player.width > goalPlatform.x &&
+      player.x < goalPlatform.x + goalPlatform.width) {
+    textSize(32);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text("YOU WIN!", width / 2, height / 2);
+    noLoop(); // Stop the game loop
+  }
 }
-// Reset game to initial state
-// added in case there were bugs
-// which there are definitely some bugs
+
+// Reset game by reinitializing game objects and variables
 function resetGame() {
-    initializeGame(); 
+  initializeGame();
 }
