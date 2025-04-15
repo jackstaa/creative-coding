@@ -17,6 +17,16 @@ const maxSpeed = 5;
 const acceleration = 0.5;
 const deceleration = 0.3;
 
+// Custom drawSprites
+function drawSprites(group) {
+  group = group || window.allSprites;
+  if (group && group.draw) {
+    group.draw();
+  } else {
+    console.warn("drawSprites: group or group.draw unavailable", group);
+  }
+}
+
 function preload() {
   playerImg = loadImage("box.png");
   bgImg = loadImage("bg.jpg");
@@ -25,16 +35,21 @@ function preload() {
 function setup() {
   createCanvas(400, 1000);
 
-  // Debug: Verify p5play functions
-  console.log("p5play loaded:", typeof createSprite !== "undefined" && typeof drawSprites !== "undefined");
+  // Debug: Verify p5play
   console.log("createSprite defined:", typeof createSprite);
   console.log("drawSprites defined:", typeof drawSprites);
+  console.log("allSprites defined:", typeof allSprites);
+  console.log("p5play version:", typeof p5play !== "undefined" ? p5play.version : "unknown");
 
   // Create player sprite
   player = createSprite(width / 2, height - 50, 20, 20);
-  // Debug: Verify player type
-  console.log("player:", player, "is Sprite:", player instanceof Sprite);
   player.addAnimation("default", playerImg);
+  // Force sprite size
+  player.width = 20;
+  player.height = 20;
+  // Debug sprite size
+  console.log("player size:", player.width, player.height);
+  console.log("player position:", player.position.x, player.position.y);
   player.friction = 0;
   player.maxSpeed = maxSpeed;
 
@@ -64,6 +79,7 @@ function setup() {
     plat.immovable = true;
     plat.isGoal = data.isGoal;
     platforms.add(plat);
+    console.log("platform size:", plat.width, plat.height);
   });
 
   // Create reset button
@@ -117,8 +133,9 @@ function draw() {
       jumpCharge = constrain(jumpCharge, 0, maxJumpCharge);
     }
 
-    // Check for falling off screen
-    if (player.position.y - player.height / 2 > height) {
+    // Check for falling off screen (adjusted)
+    if (player.position.y + player.height / 2 > height + 50) {
+      console.log("Reset triggered: player.y =", player.position.y, "height =", player.height);
       resetGame();
     }
 
@@ -129,7 +146,8 @@ function draw() {
       }
     });
 
-    //drawSprites();
+    // Render sprites
+    drawSprites();
     drawJumpMeter();
   } else if (gameState.win) {
     textSize(32);
@@ -156,23 +174,4 @@ function keyReleased() {
 }
 
 function resetGame() {
-  player.position.x = width / 2;
-  player.position.y = height - 50;
-  player.velocity.x = 0;
-  player.velocity.y = 0;
-  gameState.gameOver = false;
-  gameState.win = false;
-  isChargingJump = false;
-  jumpCharge = 0;
-  coyoteTime = 0;
-}
-
-function drawJumpMeter() {
-  fill(0, 0, 0, 50);
-  rect(10, height - 50, 200, 30);
-  fill(0, 0, 255);
-  rect(10, height - 50, map(jumpCharge, 0, maxJumpCharge, 0, 200), 30);
-  noFill();
-  stroke(0);
-  rect(10, height - 50, 200, 30);
-}
+  player.position
