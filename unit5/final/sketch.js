@@ -47,21 +47,17 @@ function initializeGame() {
   };
 
   // Define the platforms. One platform has an extra property isGoal.
-  platforms = [
-    { x: 0, y: height - 100, width: 110, height: 10 },
-    { x: 0, y: height, width: 400, height: 10 },
-    { x: width - 150, y: height - 100, width: 110, height: 10 },
-    { x: width / 2 - 50, y: height - 200, width: 110, height: 10 },
-    { x: width - 100, y: height - 300, width: 80, height: 10 },
-    { x: 20, y: height - 300, width: 80, height: 10 },
-    { x: 0, y: height - 400, width: 70, height: 10 },
-    { x: width - 100, y: height - 600, width: 100, height: 10 },
-    { x: width / 2, y: height - 400, width: 110, height: 10 },
-    { x: width / 2 - 50, y: height - 700, width: 110, height: 10 },
-    { x: width / 2 - 50, y: height - 550, width: 110, height: 10 },
-    { x: 0, y: height - 750, width: 100, height: 10 },
-    { x: width / 2, y: 45, width: 40, height: 10, isGoal: true }
-  ];
+  platforms = platforms = [
+    // Goal platform (green outline)
+    { x: 0, y: 0, width: 400, height: 10, isGoal: true },
+    
+    // Red platforms
+    { x: 300, y: 80, width: 80, height: 10 },  // Topmost right
+    { x: 20, y: 240, width: 80, height: 10 },  // Second left
+    { x: 20, y: 400, width: 80, height: 10 },  // Third left
+    { x: 300, y: 480, width: 80, height: 10 }, // Fourth right
+    { x: 20, y: 640, width: 80, height: 10 }   // Bottom left
+];
 }
 
 function draw() {
