@@ -8,8 +8,8 @@ const maxJumpTime = 1000; // Maximum jump charge time
 let bufferedDirection = 0;
 
 function preload() {
-  img = loadImage("box.png");
-  img2 = loadImage("bg.jpg");
+  img = loadImage("idle_transparent.png");
+  img2 = loadImage("bg.png");
 }
 
 function setup() {
