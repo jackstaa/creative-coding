@@ -67,9 +67,9 @@ function draw() {
     player.velocity.y += 0.5;
 
     // Horizontal movement via keys: A/LEFT for left, D/RIGHT for right.
-    if (keyDown("a") || keyDown(LEFT_ARROW)) {
+    if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) {
       player.velocity.x = -5;
-    } else if (keyDown("d") || keyDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) {
       player.velocity.x = 5;
     } else {
       player.velocity.x = 0;
@@ -82,7 +82,7 @@ function draw() {
       jumpCharge = 0;
     }
     // Accumulate charge while space is held
-    if (keyDown("space") && isChargingJump) {
+    if (keyIsDown("space") && isChargingJump) {
       jumpCharge += deltaTime;
       jumpCharge = constrain(jumpCharge, 0, maxJumpCharge);
     }
