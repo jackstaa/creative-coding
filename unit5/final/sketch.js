@@ -77,7 +77,7 @@ function draw() {
     
     // Jump charge handling:
     // Start charging if space is pressed and the player is on the ground
-    if (keyWentDown("space") && player.touching.bottom) {
+    if (keyWentDown("32") && player.touching.bottom) {
       isChargingJump = true;
       jumpCharge = 0;
     }
