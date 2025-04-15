@@ -1,13 +1,11 @@
 let player;
 let platforms;
 let bgImg, playerImg;
-let jumpSound, landSound;
 
 let jumpCharge = 0;
 const maxJumpCharge = 1000;
 let isChargingJump = false;
 let isGrounded = false;
-let wasGrounded = false;
 let coyoteTime = 0;
 const coyoteDuration = 100;
 
@@ -22,8 +20,6 @@ const deceleration = 0.3;
 function preload() {
   playerImg = loadImage("box.png");
   bgImg = loadImage("bg.jpg");
-  jumpSound = loadSound("sounds/jump.wav");
-  landSound = loadSound("sounds/land.wav");
 }
 
 function setup() {
@@ -33,9 +29,7 @@ function setup() {
   player = createSprite(width / 2, height - 50, 20, 20);
   // Debug: Verify player type
   console.log("player:", player, "is Sprite:", player instanceof Sprite);
-  // Use addAnimation instead of addImage for compatibility
   player.addAnimation("default", playerImg);
-  // Alternatively, set image directly: player.image = playerImg;
   player.friction = 0;
   player.maxSpeed = maxSpeed;
 
@@ -71,10 +65,6 @@ function setup() {
   resetButton = createButton('Reset Game');
   resetButton.position(width - 400, height + 10);
   resetButton.mousePressed(resetGame);
-
-  // Set sound volumes
-  jumpSound.setVolume(0.5);
-  landSound.setVolume(0.5);
 }
 
 function draw() {
@@ -110,12 +100,6 @@ function draw() {
         coyoteTime = 0;
       }
     });
-
-    // Play landing sound
-    if (isGrounded && !wasGrounded) {
-      landSound.play();
-    }
-    wasGrounded = isGrounded;
 
     // Update coyote time
     if (!isGrounded) {
@@ -163,7 +147,6 @@ function keyReleased() {
     player.velocity.y = -jumpPower;
     isChargingJump = false;
     jumpCharge = 0;
-    jumpSound.play();
   }
 }
 
@@ -177,7 +160,6 @@ function resetGame() {
   isChargingJump = false;
   jumpCharge = 0;
   coyoteTime = 0;
-  wasGrounded = false;
 }
 
 function drawJumpMeter() {
