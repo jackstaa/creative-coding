@@ -1,18 +1,19 @@
 let player;
 let platforms;
 let bgImg, playerImg;
+let jumpSound, landSound;
 
 let jumpCharge = 0;
-const maxJumpCharge = 1000; // Max charge time in ms
+const maxJumpCharge = 1000;
 let isChargingJump = false;
-let isGrounded = false; // Track if player is on a platform
-let coyoteTime = 0; // For forgiving jump timing
-const coyoteDuration = 100; // Coyote time in ms
+let isGrounded = false;
+let wasGrounded = false;
+let coyoteTime = 0;
+const coyoteDuration = 100;
 
 let gameState = { gameOver: false, win: false };
 let resetButton;
 
-// Smooth movement variables
 let targetVelocityX = 0;
 const maxSpeed = 5;
 const acceleration = 0.5;
@@ -21,6 +22,8 @@ const deceleration = 0.3;
 function preload() {
   playerImg = loadImage("box.png");
   bgImg = loadImage("bg.jpg");
+  jumpSound = loadSound("sounds/jump.wav");
+  landSound = loadSound("sounds/land.wav");
 }
 
 function setup() {
@@ -28,8 +31,12 @@ function setup() {
 
   // Create player sprite
   player = createSprite(width / 2, height - 50, 20, 20);
-  player.addImage("default", playerImg); // Use addImage for single image
-  player.friction = 0; // Prevent unwanted slowing
+  // Debug: Verify player type
+  console.log("player:", player, "is Sprite:", player instanceof Sprite);
+  // Use addAnimation instead of addImage for compatibility
+  player.addAnimation("default", playerImg);
+  // Alternatively, set image directly: player.image = playerImg;
+  player.friction = 0;
   player.maxSpeed = maxSpeed;
 
   // Create platform group
@@ -64,6 +71,10 @@ function setup() {
   resetButton = createButton('Reset Game');
   resetButton.position(width - 400, height + 10);
   resetButton.mousePressed(resetGame);
+
+  // Set sound volumes
+  jumpSound.setVolume(0.5);
+  landSound.setVolume(0.5);
 }
 
 function draw() {
@@ -96,9 +107,15 @@ function draw() {
       if (player.velocity.y >= 0 && player.previousPosition.y + player.height / 2 <= platforms[0].position.y - platforms[0].height / 2) {
         isGrounded = true;
         player.velocity.y = 0;
-        coyoteTime = 0; // Reset coyote time
+        coyoteTime = 0;
       }
     });
+
+    // Play landing sound
+    if (isGrounded && !wasGrounded) {
+      landSound.play();
+    }
+    wasGrounded = isGrounded;
 
     // Update coyote time
     if (!isGrounded) {
@@ -146,6 +163,7 @@ function keyReleased() {
     player.velocity.y = -jumpPower;
     isChargingJump = false;
     jumpCharge = 0;
+    jumpSound.play();
   }
 }
 
@@ -159,6 +177,7 @@ function resetGame() {
   isChargingJump = false;
   jumpCharge = 0;
   coyoteTime = 0;
+  wasGrounded = false;
 }
 
 function drawJumpMeter() {
