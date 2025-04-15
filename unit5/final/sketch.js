@@ -1,4 +1,4 @@
-// Using p5.play, make sure to include p5.play.js in your HTML!
+let player;// Using p5.play, make sure to include p5.play.js in your HTML!
 let platforms; // Group for platforms
 let bgImg, playerImg;
 
