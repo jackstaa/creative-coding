@@ -39,8 +39,8 @@ function initializeGame() {
     y: height - 50,
     prevX: width / 2,
     prevY: height - 50,
-    width: 20,
-    height: 20,
+    width: 32,
+    height: 32,
     velocityY: 0,
     velocityX: 0,
     grounded: true
