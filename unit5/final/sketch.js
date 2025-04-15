@@ -59,7 +59,7 @@ function setup() {
   // Platform data
   let platformData = [
     { x: 55, y: height - 100, w: 110, h: 10, isGoal: false },
-    { x: 200, y: height - 10, w: 400, h: 10, isGoal: false }, // Adjusted ground platform
+    { x: 200, y: 980, w: 400, h: 10, isGoal: false }, // Adjusted ground platform
     { x: width - 150 + 55, y: height - 100, w: 110, h: 10, isGoal: false },
     { x: width / 2 - 50 + 55, y: height - 200, w: 110, h: 10, isGoal: false },
     { x: width - 100 + 40, y: height - 300, w: 80, h: 10, isGoal: false },
