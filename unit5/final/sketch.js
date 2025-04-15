@@ -47,16 +47,16 @@ function initializeGame() {
   };
 
   // Define the platforms. One platform has an extra property isGoal.
-  platforms = platforms = [
-    // Goal platform (green outline)
-    { x: 0, y: 0, width: 400, height: 10, isGoal: true },
-    
-    // Red platforms
-    { x: 300, y: 80, width: 80, height: 10 },  // Topmost right
-    { x: 20, y: 240, width: 80, height: 10 },  // Second left
-    { x: 20, y: 400, width: 80, height: 10 },  // Third left
-    { x: 300, y: 480, width: 80, height: 10 }, // Fourth right
-    { x: 20, y: 640, width: 80, height: 10 }   // Bottom left
+platforms = [
+    { x: 0, y: 0, width: 1024, height: 10, isGoal: true },  // Goal platform
+    { x: 768, y: 77, width: 205, height: 10 },             // Topmost right
+    { x: 768, y: 154, width: 205, height: 10 },            // Second right
+    { x: 51, y: 461, width: 205, height: 10 },             // Third left
+    { x: 51, y: 768, width: 205, height: 10 },             // Fourth left
+    { x: 768, y: 922, width: 205, height: 10 },            // Fifth right
+    { x: 768, y: 998, width: 205, height: 10 },            // Sixth right
+    { x: 51, y: 1229, width: 205, height: 10 },            // Seventh left
+    { x: 51, y: 1382, width: 205, height: 10 }             // Eighth left
 ];
 }
 
