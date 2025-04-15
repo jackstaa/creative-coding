@@ -62,7 +62,7 @@ function initializeGame() {
 
 function draw() {
   background(220);
-  image(img2, 0, 0, 400, 1000); // Draw background
+  image(img2, 0, 0, 1024, 1536); // Draw background
 
   // Draw platforms – goal platforms are highlighted in green
 platforms.forEach(platform => {
