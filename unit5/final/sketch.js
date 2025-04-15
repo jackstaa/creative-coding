@@ -129,7 +129,7 @@ function draw() {
       }
     });
 
-    drawSprites();
+    //drawSprites();
     drawJumpMeter();
   } else if (gameState.win) {
     textSize(32);
