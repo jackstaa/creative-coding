@@ -44,8 +44,8 @@ function setup() {
   player = new Sprite();
   player.x = width / 2;
   player.y = height - 50;
-  player.width = 20;
-  player.height = 20;
+  player.width = 2;
+  player.height = 2;
   player.image = playerImg;
   // Debug sprite size
   console.log("player size:", player.width, player.height);
