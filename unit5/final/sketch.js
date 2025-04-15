@@ -65,10 +65,11 @@ function draw() {
   image(img2, 0, 0, 400, 1000); // Draw background
 
   // Draw platforms – goal platforms are highlighted in green
-  platforms.forEach(platform => {
-    fill(platform.isGoal ? color(0, 255, 0) : color(100, 100, 100));
+platforms.forEach(platform => {
+    // Set fill color with transparency (alpha = 127 for 50% transparency)
+    fill(platform.isGoal ? color(0, 255, 0, 127) : color(100, 100, 100, 127));
     rect(platform.x, platform.y, platform.width, platform.height);
-  });
+});
 
   // Update previous position for collision detection
   player.prevX = player.x;
