@@ -1,4 +1,5 @@
-let player;// Using p5.play, make sure to include p5.play.js in your HTML!
+// Ensure you declare player globally
+let player;
 let platforms; // Group for platforms
 let bgImg, playerImg;
 
@@ -19,7 +20,8 @@ function setup() {
 
   // Create the player sprite centered at the bottom
   player = createSprite(width / 2, height - 50, 20, 20);
-  player.addImage(playerImg);
+  // Instead of addImage, try using addAnimation if addImage is not available:
+  player.addAnimation("default", playerImg);
   
   // Create a group for platforms
   platforms = new Group();
@@ -126,28 +128,22 @@ function draw() {
 
 // Custom collision callback: If the player collides from above, adjust its y-velocity and position.
 function platformCollision(sprite, platform) {
-  // Check if the player was previously above the platform before collision.
   if (sprite.previousPosition.y + sprite.height/2 <= platform.position.y - platform.height/2) {
     sprite.velocity.y = 0;
-    // Place the sprite exactly on top of the platform.
     sprite.position.y = platform.position.y - platform.height/2 - sprite.height/2;
   }
-  // (Optional) You could add side collision handling here if desired.
 }
 
 function resetGame() {
-  // Reset player position and velocity.
   player.position.x = width / 2;
   player.position.y = height - 50;
   player.velocity.x = 0;
   player.velocity.y = 0;
   
-  // Reset game state flags.
   gameState.gameOver = false;
   gameState.win = false;
 }
 
-// (Optional) This function draws a jump meter showing how much jump power is charged.
 function drawJumpMeter() {
   fill(0, 0, 0, 50);
   rect(10, height - 50, 200, 30);
