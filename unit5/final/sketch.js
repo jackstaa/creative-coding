@@ -5,6 +5,7 @@ let gameState;
 let resetButton;
 let jumpTimer = 0;
 const maxJumpTime = 1000; // Maximum jump charge time
+let bufferedDirection = 0;
 
 function preload() {
   img = loadImage("box.png");
@@ -111,32 +112,41 @@ function applyGravity() {
 // Handle jump charging and launching when the spacebar is released.
 // Also supports both A/D and LEFT/RIGHT arrow keys for horizontal influence at jump time.
 function handleJump() {
-  // If space is held, charge the jump
-  if (keyIsDown(32)) { // SPACE key code
+  // When the spacebar is held, charge the jump and update the buffered direction.
+  if (keyIsDown(32)) { // 32 is the key code for space
     jumpTimer += deltaTime;
     jumpTimer = min(jumpTimer, maxJumpTime);
-  } else {
-    // On releasing space, if the player is grounded and a charge exists, trigger the jump.
-    if (jumpTimer > 0 && player.grounded) {
-      // Map jumpTimer to a jump power up to gameState.maxJumpPower (20 pixels max jump height)
-      const jumpPower = map(jumpTimer, 0, maxJumpTime, 0, gameState.maxJumpPower);
 
-      // Determine horizontal jump velocity based on input.
-      // Supports both A/D keys and LEFT/RIGHT arrows.
+    // Update buffered direction: even if the directional keys are released,
+    // the most recent pressed value remains.
+    if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) { // A key or left arrow
+      bufferedDirection = -1;
+    } else if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) { // D key or right arrow
+      bufferedDirection = 1;
+    }
+    // If neither left nor right is pressed, keep the last buffered value.
+    
+  } else {
+    // When space is released, and the player is on the ground, execute the jump.
+    if (jumpTimer > 0 && player.grounded) {
+      // Map the charge time to jump power (up to gameState.maxJumpPower)
+      const jumpPower = map(jumpTimer, 0, maxJumpTime, 0, gameState.maxJumpPower);
       let xVelocity = 0;
-      if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) { // A key or left arrow
+      if (bufferedDirection === -1) {
         xVelocity = -5;
-      } else if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) { // D key or right arrow
+      } else if (bufferedDirection === 1) {
         xVelocity = 5;
       }
 
-      // Apply the jump velocities (negative jumpPower means upward motion)
+      // Apply the jump: set vertical and horizontal velocities,
+      // then mark the player as no longer grounded.
       player.velocityY = -jumpPower;
       player.velocityX = xVelocity;
       player.grounded = false;
     }
-    // Reset the jump timer after processing
+    // Reset the jump timer and clear the buffered direction after releasing space.
     jumpTimer = 0;
+    bufferedDirection = 0;
   }
 }
 
