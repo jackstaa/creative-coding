@@ -147,4 +147,57 @@ function draw() {
 
     // Check win condition
     platforms.forEach(p => {
-      if (p.is
+      if (p.isGoal && player.collide(p) && player.y < p.y) {
+        gameState.win = true;
+      }
+    });
+
+    // Render sprites
+    drawSprites();
+    drawJumpMeter();
+  } else if (gameState.win) {
+    textSize(32);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text("YOU WIN!", width / 2, height / 2);
+  }
+}
+
+function keyPressed() {
+  if (keyCode === 32 && (isGrounded || coyoteTime < coyoteDuration)) {
+    isChargingJump = true;
+    jumpCharge = 0;
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32 && isChargingJump && (isGrounded || coyoteTime < coyoteDuration)) {
+    let jumpPower = map(jumpCharge, 0, maxJumpCharge, 0, 20);
+    player.velocity.y = -jumpPower;
+    isChargingJump = false;
+    jumpCharge = 0;
+  }
+}
+
+function resetGame() {
+  player.x = width / 2;
+  player.y = height - 50;
+  player.velocity.x = 0;
+  player.velocity.y = 0;
+  gameState.gameOver = false;
+  gameState.win = false;
+  isChargingJump = false;
+  jumpCharge = 0;
+  coyoteTime = 0;
+  console.log("Game reset: player.y =", player.y);
+}
+
+function drawJumpMeter() {
+  fill(0, 0, 0, 50);
+  rect(10, height - 50, 200, 30);
+  fill(0, 0, 255);
+  rect(10, height - 50, map(jumpCharge, 0, maxJumpCharge, 0, 200), 30);
+  noFill();
+  stroke(0);
+  rect(10, height - 50, 200, 30);
+}
