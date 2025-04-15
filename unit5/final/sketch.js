@@ -13,7 +13,7 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(400, 1000);
+  let canvas = createCanvas(400, 1500);
   // canvas.parent('sketch-holder'); // kept for potential legacy use
   initializeGame();
   
