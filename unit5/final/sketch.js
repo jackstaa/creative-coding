@@ -33,23 +33,23 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(400, 1000);
+  new Canvas(400, 1000);
 
   // Debug: Verify p5play
-  console.log("createSprite defined:", typeof createSprite);
+  console.log("Sprite constructor:", typeof Sprite);
   console.log("allSprites defined:", typeof allSprites);
   console.log("p5play version:", typeof p5play !== "undefined" ? p5play.version : "unknown");
 
   // Create player sprite
-  player = createSprite(width / 2, height - 50, 20, 20);
-  player.addAnimation("default", playerImg);
-  // Force sprite size
-  player.scale = 0.625; // Scale 32x32 to ~20x20 (20/32 = 0.625)
+  player = new Sprite();
+  player.x = width / 2;
+  player.y = height - 50;
   player.width = 20;
   player.height = 20;
+  player.image = playerImg;
   // Debug sprite size
-  console.log("player size after scaling:", player.width, player.height);
-  console.log("player position:", player.position.x, player.position.y);
+  console.log("player size:", player.width, player.height);
+  console.log("player position:", player.x, player.y);
   player.friction = 0;
   player.maxSpeed = maxSpeed;
 
@@ -75,7 +75,11 @@ function setup() {
 
   // Create platforms
   platformData.forEach(data => {
-    let plat = createSprite(data.x, data.y, data.w, data.h);
+    let plat = new Sprite();
+    plat.x = data.x;
+    plat.y = data.y;
+    plat.width = data.w;
+    plat.height = data.h;
     plat.immovable = true;
     plat.isGoal = data.isGoal;
     platforms.add(plat);
@@ -115,18 +119,18 @@ function draw() {
     // Check if player is grounded
     isGrounded = false;
     player.collide(platforms, (player, plat) => {
-      if (player.velocity.y >= 0 && player.previousPosition.y + player.height / 2 <= plat.position.y - plat.height / 2) {
+      if (player.velocity.y >= 0 && player.y - player.height / 2 <= plat.y - plat.height / 2) {
         isGrounded = true;
         player.velocity.y = 0;
         coyoteTime = 0;
-        console.log("Collided with platform at y =", plat.position.y);
+        console.log("Collided with platform at y =", plat.y);
       }
     });
 
     // Update coyote time
     if (!isGrounded) {
       coyoteTime += deltaTime;
-      console.log("Player falling: y =", player.position.y, "velocity.y =", player.velocity.y);
+      console.log("Player falling: y =", player.y, "velocity.y =", player.velocity.y);
     }
 
     // Jump charge handling
@@ -135,65 +139,12 @@ function draw() {
       jumpCharge = constrain(jumpCharge, 0, maxJumpCharge);
     }
 
-    // Check for falling off screen (adjusted)
-    if (player.position.y + player.height / 2 > height + 100) { // Added buffer
-      console.log("Reset triggered: player.y =", player.position.y, "height =", player.height);
+    // Check for falling off screen
+    if (player.y + player.height / 2 > height + 100) {
+      console.log("Reset triggered: player.y =", player.y, "height =", player.height);
       resetGame();
     }
 
     // Check win condition
     platforms.forEach(p => {
-      if (p.isGoal && player.collide(p) && player.position.y < p.position.y) {
-        gameState.win = true;
-      }
-    });
-
-    // Render sprites
-    drawSprites();
-    drawJumpMeter();
-  } else if (gameState.win) {
-    textSize(32);
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text("YOU WIN!", width / 2, height / 2);
-  }
-}
-
-function keyPressed() {
-  if (keyCode === 32 && (isGrounded || coyoteTime < coyoteDuration)) {
-    isChargingJump = true;
-    jumpCharge = 0;
-  }
-}
-
-function keyReleased() {
-  if (keyCode === 32 && isChargingJump && (isGrounded || coyoteTime < coyoteDuration)) {
-    let jumpPower = map(jumpCharge, 0, maxJumpCharge, 0, 20);
-    player.velocity.y = -jumpPower;
-    isChargingJump = false;
-    jumpCharge = 0;
-  }
-}
-
-function resetGame() {
-  player.position.x = width / 2;
-  player.position.y = height - 50;
-  player.velocity.x = 0;
-  player.velocity.y = 0;
-  gameState.gameOver = false;
-  gameState.win = false;
-  isChargingJump = false;
-  jumpCharge = 0;
-  coyoteTime = 0;
-  console.log("Game reset: player.y =", player.position.y);
-}
-
-function drawJumpMeter() {
-  fill(0, 0, 0, 50);
-  rect(10, height - 50, 200, 30);
-  fill(0, 0, 255);
-  rect(10, height - 50, map(jumpCharge, 0, maxJumpCharge, 0, 200), 30);
-  noFill();
-  stroke(0);
-  rect(10, height - 50, 200, 30);
-}
+      if (p.is
