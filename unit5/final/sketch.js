@@ -57,7 +57,8 @@ platforms = [
     { x: 710, y: 980, width: 80, height: 25 },            // Seventh left
     { x: 780, y: 900, width: 150, height: 40 },            // Eighth left
     { x: 260, y: 1320, width: 125, height: 40 },            // Eighth left
-    { x: 0, y: 1536, width: 1024, height: 10 }             // Base platform
+    { x: 445, y: 1190 , width: 200, height: 10 },            // Eighth left
+    { x: 0, y: 1536, width: 1024, height: 80 }             // Base platform
 ];
 }
 
