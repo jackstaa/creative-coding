@@ -1,14 +1,22 @@
-// Ensure you declare player globally
 let player;
-let platforms; // Group for platforms
+let platforms;
 let bgImg, playerImg;
 
 let jumpCharge = 0;
-const maxJumpCharge = 1000; // charge time in ms for maximum jump power
+const maxJumpCharge = 1000; // Max charge time in ms
 let isChargingJump = false;
+let isGrounded = false; // Track if player is on a platform
+let coyoteTime = 0; // For forgiving jump timing
+const coyoteDuration = 100; // Coyote time in ms
 
 let gameState = { gameOver: false, win: false };
 let resetButton;
+
+// Smooth movement variables
+let targetVelocityX = 0;
+const maxSpeed = 5;
+const acceleration = 0.5;
+const deceleration = 0.3;
 
 function preload() {
   playerImg = loadImage("box.png");
@@ -18,16 +26,16 @@ function preload() {
 function setup() {
   createCanvas(400, 1000);
 
-  // Create the player sprite centered at the bottom
+  // Create player sprite
   player = createSprite(width / 2, height - 50, 20, 20);
-  // Instead of addImage, try using addAnimation if addImage is not available:
-  player.addAnimation("default", playerImg);
-  
-  // Create a group for platforms
+  player.addImage("default", playerImg); // Use addImage for single image
+  player.friction = 0; // Prevent unwanted slowing
+  player.maxSpeed = maxSpeed;
+
+  // Create platform group
   platforms = new Group();
 
-  // Data for platforms. Adjust positions so that p5.play’s coordinate system (center based)
-  // works well, by using half-width offsets. (For clarity we create the sprite at the center.)
+  // Platform data
   let platformData = [
     { x: 55, y: height - 100, w: 110, h: 10, isGoal: false },
     { x: 200, y: height, w: 400, h: 10, isGoal: false },
@@ -44,11 +52,11 @@ function setup() {
     { x: width / 2 + 20, y: 45, w: 40, h: 10, isGoal: true }
   ];
 
-  // Create platform sprites from the data
+  // Create platforms
   platformData.forEach(data => {
     let plat = createSprite(data.x, data.y, data.w, data.h);
     plat.immovable = true;
-    plat.isGoal = data.isGoal; // mark the goal platform
+    plat.isGoal = data.isGoal;
     platforms.add(plat);
   });
 
@@ -61,63 +69,62 @@ function setup() {
 function draw() {
   background(220);
   image(bgImg, 0, 0, 400, 1000);
-  
+
   if (!gameState.gameOver && !gameState.win) {
-    // Apply gravity to player every frame:
+    // Apply gravity
     player.velocity.y += 0.5;
 
-    // Horizontal movement via keys: A/LEFT for left, D/RIGHT for right.
+    // Smooth horizontal movement
     if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) {
-      player.velocity.x = -5;
+      targetVelocityX = -maxSpeed;
     } else if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) {
-      player.velocity.x = 5;
+      targetVelocityX = maxSpeed;
     } else {
-      player.velocity.x = 0;
+      targetVelocityX = 0;
     }
-    
-    // Jump charge handling:
-    // Start charging if space is pressed and the player is on the ground
-    if (keyWentDown("32") && player.touching.bottom) {
-      isChargingJump = true;
-      jumpCharge = 0;
+
+    // Accelerate/decelerate
+    if (targetVelocityX > player.velocity.x) {
+      player.velocity.x = min(player.velocity.x + acceleration, targetVelocityX);
+    } else if (targetVelocityX < player.velocity.x) {
+      player.velocity.x = max(player.velocity.x - deceleration, targetVelocityX);
     }
-    // Accumulate charge while space is held
-    if (keyIsDown("space") && isChargingJump) {
+
+    // Check if player is grounded
+    isGrounded = false;
+    player.collide(platforms, () => {
+      if (player.velocity.y >= 0 && player.previousPosition.y + player.height / 2 <= platforms[0].position.y - platforms[0].height / 2) {
+        isGrounded = true;
+        player.velocity.y = 0;
+        coyoteTime = 0; // Reset coyote time
+      }
+    });
+
+    // Update coyote time
+    if (!isGrounded) {
+      coyoteTime += deltaTime;
+    }
+
+    // Jump charge handling
+    if (isChargingJump && keyIsDown(32)) {
       jumpCharge += deltaTime;
       jumpCharge = constrain(jumpCharge, 0, maxJumpCharge);
     }
-    // On release, perform jump if player is grounded
-    if (keyWentUp("space") && isChargingJump && player.touching.bottom) {
-      let jumpPower = map(jumpCharge, 0, maxJumpCharge, 0, 20);
-      player.velocity.y = -jumpPower;
-      isChargingJump = false;
-      jumpCharge = 0;
-    }
-    
-    // Handle collisions with platforms.
-    // The collide() method automatically prevents overlapping and calls our callback.
-    player.collide(platforms, platformCollision);
 
-    // Check if the player falls off screen
-    if (player.position.y - player.height/2 > height) {
+    // Check for falling off screen
+    if (player.position.y - player.height / 2 > height) {
       resetGame();
     }
-    
-    // Check win condition by testing if player collides with the goal platform from above
+
+    // Check win condition
     platforms.forEach(p => {
-      if (p.isGoal && player.collide(p)) {
-        // A simple check: if the player’s vertical position is above the goal platform's center,
-        // we count this as landing on the goal.
-        if (player.position.y < p.position.y) {
-          gameState.win = true;
-        }
+      if (p.isGoal && player.collide(p) && player.position.y < p.position.y) {
+        gameState.win = true;
       }
     });
 
     drawSprites();
-
-    // (Optional) Uncomment to display a jump meter at the bottom of the canvas:
-    // drawJumpMeter();
+    drawJumpMeter();
   } else if (gameState.win) {
     textSize(32);
     fill(0);
@@ -126,11 +133,19 @@ function draw() {
   }
 }
 
-// Custom collision callback: If the player collides from above, adjust its y-velocity and position.
-function platformCollision(sprite, platform) {
-  if (sprite.previousPosition.y + sprite.height/2 <= platform.position.y - platform.height/2) {
-    sprite.velocity.y = 0;
-    sprite.position.y = platform.position.y - platform.height/2 - sprite.height/2;
+function keyPressed() {
+  if (keyCode === 32 && (isGrounded || coyoteTime < coyoteDuration)) {
+    isChargingJump = true;
+    jumpCharge = 0;
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32 && isChargingJump && (isGrounded || coyoteTime < coyoteDuration)) {
+    let jumpPower = map(jumpCharge, 0, maxJumpCharge, 0, 20);
+    player.velocity.y = -jumpPower;
+    isChargingJump = false;
+    jumpCharge = 0;
   }
 }
 
@@ -139,9 +154,11 @@ function resetGame() {
   player.position.y = height - 50;
   player.velocity.x = 0;
   player.velocity.y = 0;
-  
   gameState.gameOver = false;
   gameState.win = false;
+  isChargingJump = false;
+  jumpCharge = 0;
+  coyoteTime = 0;
 }
 
 function drawJumpMeter() {
